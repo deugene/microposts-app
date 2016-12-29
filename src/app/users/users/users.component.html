@@ -1,0 +1,8 @@
+<p>
+  users works!
+</p>
+<ul>
+  <li *ngFor="let user of users">
+    <a routerLink="/user/{{user.id}}/overview">{{user.fullName}}</a>
+  </li>
+</ul>

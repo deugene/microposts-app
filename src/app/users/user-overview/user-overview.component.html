@@ -1,0 +1,7 @@
+<div *ngIf="user">
+  <p>
+    {{user.fullName}} overview page!
+  </p>
+  <a role="button" (click)="goBack()">Back</a>
+  <a routerLink="/user/{{user.id}}/edit">Edit</a>
+</div>

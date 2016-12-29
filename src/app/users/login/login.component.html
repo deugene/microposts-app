@@ -1,0 +1,14 @@
+<form>
+  <div class="form-group">
+    <label for="email">Email: </label>
+    <input type="email" class="form-control" id="email" #email placeholder="youremail@example.com">
+  </div>
+
+  <div class="form-group">
+    <label for="pass">Password: </label>
+    <input type="password" class="form-control" #password placeholder="password">
+  </div>
+
+  <button (click)="auth.login(email.value, password.value)">Login</button>
+  <button (click)="goBack()">Back</button>
+</form>

@@ -4,7 +4,8 @@ export class User {
     public firstName?: string,
     public lastName?: string,
     public id?: number,
-    public profile?: any
+    public profile?: any,
+    public admin = false
   ) { }
 
   get fullName(): string {

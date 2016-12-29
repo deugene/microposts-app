@@ -3,49 +3,38 @@ import { User } from './user';
 
 @Injectable()
 export class UserDataService {
-  users: User[] = [];
+  users: User[] = [
+    new User('admin@admin.com', 'admin', 'admin', 0, undefined, true)
+  ];
 
   private lastId = 0;
 
   constructor() { }
 
   findAll(): Promise<User[]> {
-    return new Promise(resolve => {
-      resolve(this.users);
-    })
-    .catch(this.errorHandler);
+    return Promise.resolve(this.users);
   }
   findById(id: number): Promise<User> {
-    return new Promise(resolve => {
-      let user = this.users.find((u: User): boolean => u.id === id);
-      resolve(user || null);
-    })
-    .catch(this.errorHandler);
+    let user = this.users.find((u: User): boolean => u.id === id);
+    return Promise.resolve(user || null);
   }
   add(user: User): Promise<User> {
-    return new Promise(resolve => {
-      if (!user.id) { user.id = ++this.lastId; }
-      this.users.push(user);
-      resolve(user);
-    })
-    .catch(this.errorHandler);
+    if (!user.id) { user.id = ++this.lastId; }
+    this.users.push(user);
+    return Promise.resolve(user);
   }
   deleteById(id: number): Promise<User> {
-    return new Promise(resolve => {
-      this.users = this.users.filter((u: User): boolean => u.id !== id);
-      resolve();
-    })
-    .catch(this.errorHandler);
+    this.users = this.users.filter((u: User): boolean => u.id !== id);
+    return Promise.resolve();
   }
   updateById(id: number, updates: any): Promise<User> {
-    return new Promise(resolve => {
-      this.findById(id)
-        .then(user => {
-          let result = user ? Object.assign(user, updates) : null;
-          resolve(result);
-        });
-    })
-    .catch(this.errorHandler);
+    let res: User;
+    this.findById(id)
+      .then(user => {
+        let result = user ? Object.assign(user, updates) : null;
+        res = result;
+      });
+    return Promise.resolve(res);
   }
   errorHandler(err: any): void {
     console.error(err);

@@ -1,3 +1,10 @@
 <h1>
   {{title}}
 </h1>
+<a *ngIf="!auth.authenticated()" routerLink="/login">Login</a>
+<a *ngIf="auth.authenticated()" (click)="auth.logout()">Logout</a>
+<a *ngIf="!auth.authenticated()" routerLink="/home">Home</a>
+<a *ngIf="auth.authenticated()" routerLink="/users">Users</a>
+<a routerLink="/about">About</a>
+
+<router-outlet></router-outlet>
