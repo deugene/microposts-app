@@ -30,13 +30,12 @@ export class UserDataService {
     return Promise.resolve();
   }
   updateById(id: number, updates: any): Promise<User> {
-    let res: User;
-    this.findById(id)
-      .then(user => {
-        let result = user ? Object.assign(user, updates) : null;
-        res = result;
-      });
-    return Promise.resolve(res);
+    return new Promise(res => {
+      this.findById(id)
+        .then((u: User): void => res(u ? Object.assign(u, updates) : null))
+        .catch(this.errorHandler);
+    })
+    .catch(this.errorHandler);
   }
   errorHandler(err: any): void {
     console.error(err);
