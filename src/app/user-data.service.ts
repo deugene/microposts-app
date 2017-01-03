@@ -4,7 +4,9 @@ import { User } from './user';
 @Injectable()
 export class UserDataService {
   users: User[] = [
-    new User('admin@admin.com', 'admin', 'admin', 0, undefined, true)
+    new User('admin@admin.com', 'admin', 'admin', undefined, true, 1),
+    new User('2@e.com', 'Tobi', 'Ferret', undefined, false, 2),
+    new User('3@n.com', 'Loki', 'Ferret', undefined, false, 3)
   ];
 
   private lastId = 0;
