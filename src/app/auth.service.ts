@@ -21,7 +21,7 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private userData: UserDataService,
+    private userData: UserDataService
   ) {
     let result = this.auth0.parseHash(window.location.hash);
 
@@ -47,8 +47,7 @@ export class AuthService {
     });
   }
 
-  signUp(username: string, password: string, firstName: string, lastName: string): void {
-    let newUser = new User(username, firstName, lastName);
+  signUp(username: string, password: string): void {
     this.auth0.signup({
       connection: 'Username-Password-Authentication',
       responseType: 'token',
@@ -77,7 +76,7 @@ export class AuthService {
     this.router.navigate([ '/home' ]);
   }
 
-  getUserProfile(): Promise<Object> {
+  getUserProfile(): Promise<any> {
     return new Promise((res, rej) => {
       if (this.userProfile) {
         res(this.userProfile);

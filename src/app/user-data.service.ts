@@ -10,10 +10,13 @@ import 'rxjs/add/operator/toPromise';
 export class UserDataService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
-  constructor(private authHttp: AuthHttp) { }
+  constructor(
+    private authHttp: AuthHttp
+  ) { }
 
   findAll(): Promise<User[]> {
-    return this.authHttp.get('api/users')
+    return this.authHttp
+      .get('api/users')
       .toPromise()
       .then(res => {
         let result = res.json();
@@ -22,8 +25,9 @@ export class UserDataService {
       })
       .catch(this.errorHandler);
   }
-  findById(id: number): Promise<User> {
-    return this.authHttp.get(`api/users/${id}`)
+  findById(id: string): Promise<User> {
+    return this.authHttp
+      .get(`api/users/${id}`)
       .toPromise()
       .then(res => {
         let result = res.json();
@@ -34,7 +38,8 @@ export class UserDataService {
       .catch(this.errorHandler);
   }
   add(user: User): Promise<User> {
-    return this.authHttp.post(`api/users`, { headers: this.headers })
+    return this.authHttp
+      .post(`api/users`, JSON.stringify(user), { headers: this.headers })
       .toPromise()
       .then(res => {
         let result = res.json();
@@ -42,9 +47,11 @@ export class UserDataService {
         return result as User;
       })
       .catch(this.errorHandler);
+
   }
-  deleteById(id: number): Promise<User> {
-    return this.authHttp.delete(`api/users/${id}`)
+  deleteById(id: string): Promise<User> {
+    return this.authHttp
+      .delete(`api/users/${id}`)
       .toPromise()
       .then(res => {
         let result = res.json();
@@ -53,12 +60,13 @@ export class UserDataService {
       })
       .catch(this.errorHandler);
   }
-  updateById(id: number, updates: any): Promise<User> {
-    return this.authHttp.put(
-      `api/users`,
-      JSON.stringify(updates),
-      { headers: this.headers }
-    )
+  updateById(id: string, updates: any): Promise<User> {
+    return this.authHttp
+      .put(
+        `api/users`,
+        JSON.stringify(updates),
+        { headers: this.headers }
+      )
       .toPromise()
       .then(res => {
         let result = res.json();

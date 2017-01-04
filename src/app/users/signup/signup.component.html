@@ -19,6 +19,6 @@
     <input type="password" class="form-control" id="pass" #password placeholder="password">
   </div>
 
-  <button (click)="auth.signup(email.value, password.value, first.value, last.value)">Sign Up</button>
+  <button (click)="auth.signUp(email, password)">Sign Up</button>
   <button (click)="goBack()">Back</button>
 </form>
