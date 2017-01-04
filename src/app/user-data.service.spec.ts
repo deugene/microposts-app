@@ -138,7 +138,7 @@ describe('UserDataService', () => {
       it('should return user with corresponding id and updated data', done => {
         service.updateById(1, { firstName: 'Bar' })
           .then(updatedUser => {
-            expect(updatedUser.fullName).toEqual('Bar Bar');
+            expect(updatedUser.firstName).toEqual('Bar');
             done();
           });
       });

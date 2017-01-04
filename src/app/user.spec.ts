@@ -9,6 +9,6 @@ describe('User', () => {
     let user = new User('1@e.ua', 'Foo', 'Bar', 1);
     expect(user.id).toEqual(1);
     expect(user.email).toEqual('1@e.ua');
-    expect(user.fullName).toEqual('Foo Bar');
+    expect(user.firstName).toEqual('Foo');
   });
 });

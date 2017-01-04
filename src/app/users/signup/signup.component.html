@@ -1,3 +1,24 @@
-<p>
-  signup works!
-</p>
+<form>
+  <div class="form-group">
+    <label for="first">First Name: </label>
+    <input type="text" class="form-control" id="first" #first placeholder="First Name">
+  </div>
+
+  <div class="form-group">
+    <label for="last">Last Name: </label>
+    <input type="text" class="form-control" id="last" #last placeholder="Last Name">
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email: </label>
+    <input type="email" class="form-control" id="email" #email placeholder="youremail@example.com">
+  </div>
+
+  <div class="form-group">
+    <label for="pass">Password: </label>
+    <input type="password" class="form-control" id="pass" #password placeholder="password">
+  </div>
+
+  <button (click)="auth.signup(email.value, password.value, first.value, last.value)">Sign Up</button>
+  <button (click)="goBack()">Back</button>
+</form>

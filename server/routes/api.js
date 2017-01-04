@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
 router.use(cors());
 
 const authCheck = jwt({
-  secret: new Buffer(auth0ClientSecret, 'base64'),
+  secret: auth0ClientSecret,
   audience: auth0ClientId
 });
 

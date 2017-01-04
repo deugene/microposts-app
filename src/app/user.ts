@@ -5,15 +5,11 @@ export class User {
     public email?: string,
     public firstName?: string,
     public lastName?: string,
-    public profile?: any,
+    public profile = 'empty',
     public admin = false,
     public id?: number,
     public createdAt?: string,
     public updatedAt?: string,
     public microposts?: Micropost[]
   ) { }
-
-  get fullName(): string {
-    return this.firstName + ' ' + this.lastName;
-  }
 }

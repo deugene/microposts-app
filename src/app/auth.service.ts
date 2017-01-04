@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { tokenNotExpired } from 'angular2-jwt';
 
+import { UserDataService } from './user-data.service';
+import { User } from './user';
+
 declare const Auth0: any;
 
 @Injectable()
@@ -10,18 +13,22 @@ export class AuthService {
     domain: 'deugene.eu.auth0.com',
     clientID: 'ZLSeG1Tw3JdKCPLw6XrOFSiJ000e2me5',
     responseType: 'token',
-    callbackURL: 'http://localhost:4200/'
+    callbackURL: 'http://localhost:3000/'
   });
 
-  private idToken: string;
+  private accessToken: string;
   userProfile: Object;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private userData: UserDataService,
+  ) {
     let result = this.auth0.parseHash(window.location.hash);
 
-    if (result && result.idToken) {
+    if (result && result.accessToken && result.idToken) {
+      localStorage.setItem('access_token', result.accessToken);
       localStorage.setItem('id_token', result.idToken);
-      this.idToken = result.idToken;
+      this.accessToken = result.accessToken;
       this.getUserProfile();
       this.router.navigate([ '' ]);
     } else if (result && result.error) {
@@ -40,7 +47,8 @@ export class AuthService {
     });
   }
 
-  signUp(username: string, password: string): void {
+  signUp(username: string, password: string, firstName: string, lastName: string): void {
+    let newUser = new User(username, firstName, lastName);
     this.auth0.signup({
       connection: 'Username-Password-Authentication',
       responseType: 'token',
@@ -64,6 +72,7 @@ export class AuthService {
   }
 
   logout(): void {
+    localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     this.router.navigate([ '/home' ]);
   }
@@ -74,7 +83,7 @@ export class AuthService {
         res(this.userProfile);
         return;
       }
-      this.auth0.getProfile(this.idToken, (err, profile): void => {
+      this.auth0.getUserInfo(this.accessToken, (err, profile): void => {
         if (err) {
           rej(err);
           return;
