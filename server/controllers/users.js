@@ -6,23 +6,23 @@ const Comment = models.Comment;
 
 module.exports = {
   create(req, res, next) {
-    User.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      profile: req.body.profile,
-      admin: req.body.admin
-    })
+    User.create(req.body, { fields: [
+      'firstName',
+      'lastName',
+      'email',
+      'profile',
+      'admin'
+    ] })
     .then(user => res.json(user))
     .catch(next);
   },
-  list(req, res, next) {
+  all(req, res, next) {
     User
       .all()
       .then(users => res.json(users))
       .catch(next);
   },
-  findById(req, res, next) {
+  one(req, res, next) {
     User
       .findById(req.params.userId, {
         include: [{
@@ -42,21 +42,23 @@ module.exports = {
   },
   update(req, res, next) {
     User
-      .findById(req.params.userId, {
-        include: [{
-          model: Micropost,
-          as: 'microposts',
-          include: [{
-            model: Comment,
-            as: 'comments'
-          }]
-        }]
-      })
+      .findById(req.params.userId)
       .then(user => {
         if (!user) { throw new Error('User Not Found'); }
         user
-          .update(req.body, { fields: Object.keys(req.body ) })
+          .update(req.body, { fields: Object.keys(req.body) })
           .then(updatedUser => res.json(updatedUser))
+          .catch(next);
+      })
+      .catch(next);
+  },
+  delete(req, res, next) {
+    User
+      .findById(req.params.userId)
+      .then(user => {
+        if (!user) { throw new Error('User Not Found'); }
+        user.destroy()
+          .then(() => res.json({ user: user, deleted: true }))
           .catch(next);
       })
       .catch(next);
