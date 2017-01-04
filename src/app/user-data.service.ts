@@ -1,41 +1,71 @@
 import { Injectable } from '@angular/core';
+import { Headers } from '@angular/http';
 import { User } from './user';
+
+import { AuthHttp } from 'angular2-jwt';
+
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class UserDataService {
-  users: User[] = [
-    new User('admin@admin.com', 'admin', 'admin', undefined, true, 1),
-    new User('2@e.com', 'Tobi', 'Ferret', undefined, false, 2),
-    new User('3@n.com', 'Loki', 'Ferret', undefined, false, 3)
-  ];
+  private headers = new Headers({ 'Content-Type': 'application/json' });
 
-  private lastId = 0;
-
-  constructor() { }
+  constructor(private authHttp: AuthHttp) { }
 
   findAll(): Promise<User[]> {
-    return Promise.resolve(this.users);
+    return this.authHttp.get('api/users')
+      .toPromise()
+      .then(res => {
+        let result = res.json();
+        if (result.err) { throw new Error(result.err.message); }
+        return result as User[];
+      })
+      .catch(this.errorHandler);
   }
   findById(id: number): Promise<User> {
-    let user = this.users.find((u: User): boolean => u.id === id);
-    return Promise.resolve(user || null);
+    return this.authHttp.get(`api/users/${id}`)
+      .toPromise()
+      .then(res => {
+        let result = res.json();
+        if (result.err) { throw new Error(result.err.message); }
+        result = result || null;
+        return result as User;
+      })
+      .catch(this.errorHandler);
   }
   add(user: User): Promise<User> {
-    if (!user.id) { user.id = ++this.lastId; }
-    this.users.push(user);
-    return Promise.resolve(user);
+    return this.authHttp.post(`api/users`, { headers: this.headers })
+      .toPromise()
+      .then(res => {
+        let result = res.json();
+        if (result.err) { throw new Error(result.err.message); }
+        return result as User;
+      })
+      .catch(this.errorHandler);
   }
   deleteById(id: number): Promise<User> {
-    this.users = this.users.filter((u: User): boolean => u.id !== id);
-    return Promise.resolve();
+    return this.authHttp.delete(`api/users/${id}`)
+      .toPromise()
+      .then(res => {
+        let result = res.json();
+        if (result.err) { throw new Error(result.err.message); }
+        return null;
+      })
+      .catch(this.errorHandler);
   }
   updateById(id: number, updates: any): Promise<User> {
-    return new Promise(res => {
-      this.findById(id)
-        .then((u: User): void => res(u ? Object.assign(u, updates) : null))
-        .catch(this.errorHandler);
-    })
-    .catch(this.errorHandler);
+    return this.authHttp.put(
+      `api/users`,
+      JSON.stringify(updates),
+      { headers: this.headers }
+    )
+      .toPromise()
+      .then(res => {
+        let result = res.json();
+        if (result.err) { throw new Error(result.err.message); }
+        return result as User;
+      })
+      .catch(this.errorHandler);
   }
   errorHandler(err: any): void {
     console.error(err);
