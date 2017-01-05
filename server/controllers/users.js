@@ -6,15 +6,10 @@ const Comment = models.Comment;
 
 module.exports = {
   create(req, res, next) {
-    User.create(req.body, { fields: [
-      'firstName',
-      'lastName',
-      'email',
-      'profile',
-      'admin'
-    ] })
-    .then(user => res.json(user))
-    .catch(next);
+    User
+      .create(req.body, { fields: Object.keys(req.body) })
+      .then(user => res.json(user))
+      .catch(next);
   },
   all(req, res, next) {
     User

@@ -23,12 +23,16 @@ export class UserOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.route.params
-      .switchMap((params: Params) => this.userData.findById(+params['userId']))
+      .switchMap((params: Params) => this.userData.findById(params['userId']))
       .subscribe(user => this.user = user);
   }
 
   goBack(): void {
     this.location.back();
+  }
+
+  addMicropost(title: string, body: string): void {
+
   }
 
 }

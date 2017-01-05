@@ -17,7 +17,7 @@ export class AuthService {
   });
 
   private accessToken: string;
-  userProfile: Object;
+  userProfile: any;
 
   constructor(
     private router: Router,
@@ -29,8 +29,27 @@ export class AuthService {
       localStorage.setItem('access_token', result.accessToken);
       localStorage.setItem('id_token', result.idToken);
       this.accessToken = result.accessToken;
-      this.getUserProfile();
-      this.router.navigate([ '' ]);
+      this.getUserProfile()
+        .then(profile => {
+          const user_id = profile.identities[0].user_id;
+          this.userData.findById(user_id)
+            .then(user => {
+              if (!user) {
+                const newUser = new User(
+                  profile.email,
+                  profile.given_name || profile.name,
+                  profile.family_name || '',
+                  user_id
+                );
+                this.userData.add(newUser)
+                  .then(() => {
+                    this.router.navigate([ `users/${user_id}/overview` ]);
+                  });
+              } else {
+                this.router.navigate([ `users/${user_id}/overview` ]);
+              }
+            });
+        });
     } else if (result && result.error) {
       alert('error: ' + result.error);
     }
@@ -47,8 +66,7 @@ export class AuthService {
     });
   }
 
-  signUp(username: string, password: string, firstName: string, lastName: string): void {
-    let newUser = new User(username, firstName, lastName);
+  signUp(username: string, password: string): void {
     this.auth0.signup({
       connection: 'Username-Password-Authentication',
       responseType: 'token',
@@ -77,7 +95,7 @@ export class AuthService {
     this.router.navigate([ '/home' ]);
   }
 
-  getUserProfile(): Promise<Object> {
+  getUserProfile(): Promise<any> {
     return new Promise((res, rej) => {
       if (this.userProfile) {
         res(this.userProfile);

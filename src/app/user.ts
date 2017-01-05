@@ -5,9 +5,8 @@ export class User {
     public email?: string,
     public firstName?: string,
     public lastName?: string,
-    public profile = 'empty',
+    public id?: string,
     public admin = false,
-    public id?: number,
     public createdAt?: string,
     public updatedAt?: string,
     public microposts?: Micropost[]

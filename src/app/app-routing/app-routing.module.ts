@@ -16,8 +16,8 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'users', component: UsersComponent, canActivate: [ AuthGuardService ] },
   { path: 'about', component: AboutComponent },
-  { path: 'user/:userId/overview', component: UserOverviewComponent, canActivate: [ AuthGuardService ] },
-  { path: 'user/:userId/edit', component: UserEditComponent, canActivate: [ AuthGuardService ] },
+  { path: 'users/:userId/overview', component: UserOverviewComponent, canActivate: [ AuthGuardService ] },
+  { path: 'users/:userId/edit', component: UserEditComponent, canActivate: [ AuthGuardService ] },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent }
 ];

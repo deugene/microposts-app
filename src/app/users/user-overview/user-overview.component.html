@@ -3,5 +3,24 @@
     {{user.firstName}} {{user.lastName}} overview page!
   </p>
   <a role="button" (click)="goBack()">Back</a>
-  <a routerLink="/user/{{user.id}}/edit">Edit</a>
+  <a routerLink="/users/{{user.id}}/edit">Edit</a>
+  <div>
+
+    <label for="title">Title: </label>
+    <input type="email" class="form-control" id="title" #title placeholder="title">
+
+    <label for="body">Content: </label>
+    <textarea class="form-control" id="body" cols="30" rows="10" #body placeholder="Micropost content"></textarea>
+
+    <button (click)="addMicropost(title.value, body.value)">New Micropost</button>
+
+    <div *ngIf="user.microposts">
+      <div *ngFor="let micropost of user.microposts">
+        <h4>{{micropost.title}}</h4>
+        <p>{{micropost.body}}</p>
+
+        <a routerLink="/users/{{user.id}}/microposts/{{micropost.id}}/edit"></a>
+      </div>
+    </div>
+  </div>
 </div>

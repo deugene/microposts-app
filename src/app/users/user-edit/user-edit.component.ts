@@ -23,7 +23,7 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit() {
     this.route.params
-      .switchMap((params: Params) => this.userData.findById(+params['userId']))
+      .switchMap((params: Params) => this.userData.findById(params['userId']))
       .subscribe(user => this.user = user);
   }
 
