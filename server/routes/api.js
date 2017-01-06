@@ -36,29 +36,29 @@ router.delete('/users/:userId', controllers.users.delete);
 
 // microposts
 router.post(
-  '/users/:userId/microposts',
+  '/microposts',
   controllers.microposts.create
 );
 router.put(
-  '/users/:userId/microposts/:micropostId',
+  '/microposts/:micropostId',
   controllers.microposts.update
 );
 router.delete(
-  '/users/:userId/microposts/:micropostId',
+  '/microposts/:micropostId',
   controllers.microposts.delete
 );
 
 //comments
 router.post(
-  '/users/:userId/microposts/:micropostId/comments',
+  '/comments',
   controllers.comments.create
 );
 router.put(
-  '/users/:userId/microposts/:micropostId/comments/:commentId',
+  '/comments/:commentId',
   controllers.comments.update
 );
 router.delete(
-  '/users/:userId/microposts/:micropostId/comments/:commentId',
+  '/comments/:commentId',
   controllers.comments.delete
 );
 

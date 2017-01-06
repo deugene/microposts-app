@@ -7,8 +7,9 @@ import { AppComponent } from './app.component';
 import { AboutComponent } from './static-pages/about/about.component';
 import { HomeComponent } from './static-pages/home/home.component';
 
-import { UserDataService } from './user-data.service';
+import { UserService } from './user.service';
 import { AuthService } from './auth.service';
+import { MicropostService } from './micropost.service';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { UsersComponent } from './users/users/users.component';
@@ -18,6 +19,7 @@ import { LoginComponent } from './users/login/login.component';
 import { SignupComponent } from './users/signup/signup.component';
 
 import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
+import { MicropostsComponent } from './microposts/microposts/microposts.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({}), http, options);
@@ -32,7 +34,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     UserEditComponent,
     UserOverviewComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    MicropostsComponent
   ],
   imports: [
     BrowserModule,
@@ -41,8 +44,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AppRoutingModule
   ],
   providers: [
-    UserDataService,
+    UserService,
     AuthService,
+    MicropostService,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,

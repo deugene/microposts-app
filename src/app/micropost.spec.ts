@@ -6,9 +6,8 @@ describe('Micropost', () => {
   });
 
   it('should take constructor arguments', () => {
-    let micropost = new Micropost('title', 'body', 1);
-    expect(micropost.title).toEqual('title');
+    let micropost = new Micropost('body', '1');
     expect(micropost.body).toEqual('body');
-    expect(micropost.UserId).toEqual(1);
+    expect(micropost.userId).toEqual('1');
   });
 });

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { tokenNotExpired } from 'angular2-jwt';
 
-import { UserDataService } from './user-data.service';
+import { UserService } from './user.service';
 import { User } from './user';
 
 declare const Auth0: any;
@@ -21,7 +21,7 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private userData: UserDataService,
+    private userService: UserService,
   ) {
     let result = this.auth0.parseHash(window.location.hash);
 
@@ -32,7 +32,7 @@ export class AuthService {
       this.getUserProfile()
         .then(profile => {
           const user_id = profile.identities[0].user_id;
-          this.userData.findById(user_id)
+          this.userService.findById(user_id)
             .then(user => {
               if (!user) {
                 const newUser = new User(
@@ -41,7 +41,7 @@ export class AuthService {
                   profile.family_name || '',
                   user_id
                 );
-                this.userData.add(newUser)
+                this.userService.add(newUser)
                   .then(() => {
                     this.router.navigate([ `users/${user_id}/overview` ]);
                   });
@@ -100,15 +100,18 @@ export class AuthService {
       if (this.userProfile) {
         res(this.userProfile);
         return;
+      } else if (this.accessToken) {
+        this.auth0.getUserInfo(this.accessToken, (err, profile): void => {
+          if (err) {
+            rej(err);
+            return;
+          }
+          this.userProfile = profile;
+          res(profile);
+        });
+      } else {
+        res(null);
       }
-      this.auth0.getUserInfo(this.accessToken, (err, profile): void => {
-        if (err) {
-          rej(err);
-          return;
-        }
-        this.userProfile = profile;
-        res(profile);
-      });
     });
   }
 }

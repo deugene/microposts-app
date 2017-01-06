@@ -1,10 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Micropost = sequelize.define('Micropost', {
-    title: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
     body: {
       allowNull: false,
       type: DataTypes.STRING

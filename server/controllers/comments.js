@@ -2,13 +2,10 @@ const Comment = require('../models').Comment;
 
 module.exports = {
   create(req, res, next) {
-    Comment.create({
-      body: req.body.body,
-      commentId: req.params.commentId,
-      micropostId: req.params.micropostId
-    })
-    .then(comment => res.json(comment))
-    .catch(next);
+    Comment
+      .create(req.body, { fields: Object.keys(req.body) })
+      .then(comment => res.json(comment))
+      .catch(next);
   },
   update(req, res, next) {
     Comment

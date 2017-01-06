@@ -7,7 +7,7 @@ import { AuthHttp } from 'angular2-jwt';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
-export class UserDataService {
+export class UserService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
   constructor(private authHttp: AuthHttp) { }
@@ -63,7 +63,7 @@ export class UserDataService {
   updateById(id: string, updates: any): Promise<User> {
     return this.authHttp
       .put(
-        `api/users`,
+        `api/users/${id}`,
         JSON.stringify(updates),
         { headers: this.headers }
       )

@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { User } from '../../user';
-import { UserDataService } from '../../user-data.service';
+import { UserService } from '../../user.service';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -16,14 +16,14 @@ export class UserEditComponent implements OnInit {
   user: User;
 
   constructor(
-    private userData: UserDataService,
+    private userService: UserService,
     private route: ActivatedRoute,
     private location: Location
   ) { }
 
   ngOnInit() {
     this.route.params
-      .switchMap((params: Params) => this.userData.findById(params['userId']))
+      .switchMap((params: Params) => this.userService.findById(params['userId']))
       .subscribe(user => this.user = user);
   }
 

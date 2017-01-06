@@ -2,13 +2,10 @@ const Micropost = require('../models').Micropost;
 
 module.exports = {
   create(req, res, next) {
-    Micropost.create({
-      title: req.body.title,
-      body: req.body.body,
-      micropostId: req.params.micropostId
-    })
-    .then(micropost => res.json(micropost))
-    .catch(next);
+    Micropost
+      .create(req.body, { fields: Object.keys(req.body) })
+      .then(micropost => res.json(micropost))
+      .catch(next);
   },
   update(req, res, next) {
     Micropost
