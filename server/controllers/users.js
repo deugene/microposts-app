@@ -21,32 +21,14 @@ module.exports = {
   findById(req, res, next) {
     User
       .findById(req.params.userId, {
-        include:[
-          {
-            model: Micropost,
-            as: 'microposts',
-            include: [{
-              model: Comment,
-              as: 'comments'
-            }]
-          },
-          {
-            model: User,
-            through: {
-              model: Relationship,
-              foreignKey: 'followerId'
-            },
-            as: 'followers'
-          },
-          {
-            model: User,
-            through: {
-              model: Relationship,
-              foreignKey: 'followedId'
-            },
-            as: 'followedUsers'
-          }
-        ]
+        include:[{
+          model: Micropost,
+          as: 'microposts',
+          include: [{
+            model: Comment,
+            as: 'comments'
+          }]
+        }]
       })
       .then(user => {
         if (!user) { throw new Error('User Not Found'); }

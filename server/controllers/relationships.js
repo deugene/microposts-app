@@ -9,7 +9,12 @@ module.exports = {
   },
   destroy(req, res, next) {
     Relationship
-      .findById(req.params.relationshipId)
+      .findOne({
+        where: {
+          followerId: req.params.userId,
+          followedId: req.params.otherId
+        }
+      })
       .then(relationship => {
         if (!relationship) { throw new Error('Relationship Not Found'); }
         relationship.destroy()

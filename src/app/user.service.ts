@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers } from '@angular/http';
+
 import { User } from './user';
 
 import { AuthHttp } from 'angular2-jwt';

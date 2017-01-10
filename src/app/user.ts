@@ -9,6 +9,8 @@ export class User {
     public admin = false,
     public createdAt?: string,
     public updatedAt?: string,
-    public microposts?: Micropost[]
+    public microposts?: Micropost[],
+    public followers?: User[],
+    public followedUsers?: User[]
   ) { }
 }

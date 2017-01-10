@@ -6,6 +6,7 @@ import { User } from '../../user';
 
 import { UserService } from '../../user.service';
 import { AuthService } from '../../auth.service';
+import { RelationshipService } from '../../relationship.service';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -16,13 +17,14 @@ import 'rxjs/add/operator/switchMap';
 })
 export class UserOverviewComponent implements OnInit {
   user: User;
-  currentUserId: string;
+  currentUser: User;
 
   constructor(
-    private userService: UserService,
+    public userService: UserService,
     private route: ActivatedRoute,
     private location: Location,
-    private auth: AuthService
+    private auth: AuthService,
+    private relationshipService: RelationshipService
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +39,12 @@ export class UserOverviewComponent implements OnInit {
         }
       });
     this.auth.getUserProfile()
-      .then(profile => this.currentUserId = profile.identities[0].user_id);
+      .then(profile => {
+        const currentUserId = profile.identities[0].user_id;
+        this.userService
+          .findById(currentUserId)
+          .then(currentUser => this.currentUser = currentUser);
+      });
   }
 
   goBack(): void {
@@ -45,6 +52,25 @@ export class UserOverviewComponent implements OnInit {
   }
 
   isCurrent(): boolean {
-    return this.user.id === this.currentUserId;
+    return this.user.id === this.currentUser.id;
+  }
+
+  isFollow(): boolean {
+    console.log(this.currentUser);
+    console.log('----');
+    console.log(this.user);
+    return this.relationshipService.isFollow(this.currentUser, this.user.id);
+  }
+
+  follow(): void {
+    this.relationshipService.follow(this.currentUser.id, this.user.id);
+  }
+
+  unfollow(): void {
+    this.relationshipService.unfollow(this.currentUser.id, this.user.id);
+  }
+
+  test(): string {
+    return JSON.stringify(this.user);
   }
 }

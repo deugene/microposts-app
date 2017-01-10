@@ -36,19 +36,17 @@ module.exports = function(sequelize, DataTypes) {
           foreignKey: 'userId',
           as: 'comments'
         });
-        User.hasMany(models.User, {
-          through: {
-            model: models.Relationship,
-            foreignKey: 'followedId'
-          },
-          as: 'followedUsers'
-        });
-        User.hasMany(models.User, {
-          through: {
-            model: models.Relationship,
-            foreignKey: 'followerId'
-          },
+        User.belongsToMany(models.User, {
+          through: 'Relationship',
+          foreignKey: 'followedId',
+          constraints: false,
           as: 'followers'
+        });
+        User.belongsToMany(models.User, {
+          through: 'Relationship',
+          foreignKey: 'followerId',
+          constraints: false,
+          as: 'followedUsers'
         });
       }
     }

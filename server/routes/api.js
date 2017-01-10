@@ -72,7 +72,7 @@ router.post(
   controllers.relationships.create
 );
 router.delete(
-  '/relationships/:relationshipId',
+  '/relationships/:userId/:otherId',
   controllers.relationships.destroy
 );
 

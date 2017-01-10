@@ -10,6 +10,7 @@ import { HomeComponent } from './static-pages/home/home.component';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 import { MicropostService } from './micropost.service';
+import { RelationshipService } from './relationship.service';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { UsersComponent } from './users/users/users.component';
@@ -47,6 +48,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     UserService,
     AuthService,
     MicropostService,
+    RelationshipService,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
