@@ -15,7 +15,7 @@ export class UsersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userService.findAll().then(users => this.users = users);
+    this.userService.all().then(users => this.users = users);
   }
 
 }

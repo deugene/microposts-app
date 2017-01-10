@@ -12,7 +12,7 @@ export class UserService {
 
   constructor(private authHttp: AuthHttp) { }
 
-  findAll(): Promise<User[]> {
+  all(): Promise<User[]> {
     return this.authHttp
       .get('api/users')
       .toPromise()
@@ -38,7 +38,7 @@ export class UserService {
       })
       .catch(this.errorHandler);
   }
-  add(user: User): Promise<User> {
+  create(user: User): Promise<User> {
     return this.authHttp
       .post(`api/users`, JSON.stringify(user), { headers: this.headers })
       .toPromise()
@@ -49,7 +49,7 @@ export class UserService {
       })
       .catch(this.errorHandler);
   }
-  deleteById(id: string): Promise<User> {
+  destroy(id: string): Promise<User> {
     return this.authHttp
       .delete(`api/users/${id}`)
       .toPromise()
@@ -60,7 +60,7 @@ export class UserService {
       })
       .catch(this.errorHandler);
   }
-  updateById(id: string, updates: any): Promise<User> {
+  update(id: string, updates: any): Promise<User> {
     return this.authHttp
       .put(
         `api/users/${id}`,

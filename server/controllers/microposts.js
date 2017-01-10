@@ -19,14 +19,29 @@ module.exports = {
       })
       .catch(next);
   },
-  delete(req, res, next) {
+  destroy(req, res, next) {
     Micropost
       .findById(req.params.micropostId)
       .then(micropost => {
         if (!micropost) { throw new Error('Micropost Not Found'); }
         micropost.destroy()
-          .then(() => res.json({ micropost: micropost, deleted: true }))
+          .then(() => res.json(micropost))
           .catch(next);
+      })
+      .catch(next);
+  },
+  findAll(req, res, next) {
+    Micropost
+      .findAll({
+        where: {
+          userId: {
+            in: req.body.followedUsers
+          }
+        },
+        include: [{
+          model: Comment,
+          as: 'comments',
+        }]
       })
       .catch(next);
   }

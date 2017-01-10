@@ -19,13 +19,13 @@ module.exports = {
       })
       .catch(next);
   },
-  delete(req, res, next) {
+  destroy(req, res, next) {
     Comment
       .findById(req.params.commentId)
       .then(comment => {
         if (!comment) { throw new Error('Comment Not Found'); }
         comment.destroy()
-          .then(() => res.json({ comment: comment, deleted: true }))
+          .then(() => res.json(comment))
           .catch(next);
       })
       .catch(next);

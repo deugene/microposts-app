@@ -41,7 +41,7 @@ export class AuthService {
                   profile.family_name || '',
                   user_id
                 );
-                this.userService.add(newUser)
+                this.userService.create(newUser)
                   .then(() => {
                     this.router.navigate([ `users/${user_id}/overview` ]);
                   });

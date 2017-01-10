@@ -30,9 +30,9 @@ router.all ('/*', authCheck);
 // users
 router.get('/users', controllers.users.all);
 router.post('/users', controllers.users.create);
-router.get('/users/:userId', controllers.users.one);
+router.get('/users/:userId', controllers.users.findById);
 router.put('/users/:userId', controllers.users.update);
-router.delete('/users/:userId', controllers.users.delete);
+router.delete('/users/:userId', controllers.users.destroy);
 
 // microposts
 router.post(
@@ -45,7 +45,11 @@ router.put(
 );
 router.delete(
   '/microposts/:micropostId',
-  controllers.microposts.delete
+  controllers.microposts.destroy
+);
+router.get(
+  '/microposts',
+  controllers.microposts.findAll
 );
 
 //comments
@@ -59,7 +63,17 @@ router.put(
 );
 router.delete(
   '/comments/:commentId',
-  controllers.comments.delete
+  controllers.comments.destroy
+);
+
+//relationships
+router.post(
+  '/relationships',
+  controllers.relationships.create
+);
+router.delete(
+  '/relationships/:relationshipId',
+  controllers.relationships.destroy
 );
 
 module.exports = router;

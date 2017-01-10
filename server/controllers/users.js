@@ -3,6 +3,7 @@ const models = require('../models');
 const User = models.User;
 const Micropost = models.Micropost;
 const Comment = models.Comment;
+const Relationship = models.Relationship;
 
 module.exports = {
   create(req, res, next) {
@@ -17,17 +18,35 @@ module.exports = {
       .then(users => res.json(users))
       .catch(next);
   },
-  one(req, res, next) {
+  findById(req, res, next) {
     User
       .findById(req.params.userId, {
-        include: [{
-          model: Micropost,
-          as: 'microposts',
-          include: [{
-            model: Comment,
-            as: 'comments'
-          }]
-        }]
+        include:[
+          {
+            model: Micropost,
+            as: 'microposts',
+            include: [{
+              model: Comment,
+              as: 'comments'
+            }]
+          },
+          {
+            model: User,
+            through: {
+              model: Relationship,
+              foreignKey: 'followerId'
+            },
+            as: 'followers'
+          },
+          {
+            model: User,
+            through: {
+              model: Relationship,
+              foreignKey: 'followedId'
+            },
+            as: 'followedUsers'
+          }
+        ]
       })
       .then(user => {
         if (!user) { throw new Error('User Not Found'); }
@@ -47,13 +66,13 @@ module.exports = {
       })
       .catch(next);
   },
-  delete(req, res, next) {
+  destroy(req, res, next) {
     User
       .findById(req.params.userId)
       .then(user => {
         if (!user) { throw new Error('User Not Found'); }
         user.destroy()
-          .then(() => res.json({ user: user, deleted: true }))
+          .then(() => res.json(user))
           .catch(next);
       })
       .catch(next);

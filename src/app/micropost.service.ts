@@ -27,7 +27,7 @@ export class MicropostService {
     })
     .catch(this.errorHandler);
   }
-  delete(id: number): Promise<Micropost> {
+  destroy(id: number): Promise<Micropost> {
     return this.authHttp
       .delete(`api/microposts/${id}`)
       .toPromise()
