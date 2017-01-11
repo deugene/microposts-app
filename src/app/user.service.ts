@@ -89,6 +89,10 @@ export class UserService {
       .catch(this.errorHandler);
   }
 
+  fullName(user: User): string {
+    return user.firstName + ' ' + user.lastName;
+  }
+
   errorHandler(err: any): void {
     console.error(err);
   }

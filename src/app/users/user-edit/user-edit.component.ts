@@ -16,7 +16,7 @@ export class UserEditComponent implements OnInit {
   user: User;
 
   constructor(
-    private userService: UserService,
+    public userService: UserService,
     private route: ActivatedRoute,
     private location: Location
   ) { }
