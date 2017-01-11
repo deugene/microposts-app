@@ -15,13 +15,13 @@ export class RelationshipService {
   constructor(private authHttp: AuthHttp) { }
 
   isFollow(user: User, otherId: string): boolean {
-    return user.followers.some(follower => follower.id === otherId);
+    return user.followedUsers.some(follower => follower.id === otherId);
   }
 
   follow(userId: string, otherId: string): Promise<Relationship> {
     const follow = new Relationship(userId, otherId);
     return this.authHttp.post(
-      '/relationships',
+      'api/relationships',
       JSON.stringify(follow),
       { headers: this.headers }
     )
@@ -36,7 +36,7 @@ export class RelationshipService {
 
   unfollow(userId: string, otherId: string): Promise<Relationship> {
     return this.authHttp.delete(
-      `/relationships/${userId}/${otherId}`,
+      `api/relationships/${userId}/${otherId}`,
       { headers: this.headers }
     )
       .toPromise()

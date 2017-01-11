@@ -92,13 +92,15 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
+    localStorage.removeItem('user_profile');
     this.router.navigate([ '/home' ]);
   }
 
   getUserProfile(): Promise<any> {
     return new Promise((res, rej) => {
-      if (this.userProfile) {
-        res(this.userProfile);
+      const userProfile = JSON.parse(localStorage.getItem('user_profile'));
+      if (userProfile) {
+        res(userProfile);
         return;
       } else if (this.accessToken) {
         this.auth0.getUserInfo(this.accessToken, (err, profile): void => {
@@ -106,7 +108,8 @@ export class AuthService {
             rej(err);
             return;
           }
-          this.userProfile = profile;
+          localStorage.setItem('user_profile', JSON.stringify(profile));
+          // this.userProfile = profile;
           res(profile);
         });
       } else {

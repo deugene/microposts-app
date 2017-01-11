@@ -29,20 +29,5 @@ module.exports = {
           .catch(next);
       })
       .catch(next);
-  },
-  findAll(req, res, next) {
-    Micropost
-      .findAll({
-        where: {
-          userId: {
-            in: req.body.followedUsers
-          }
-        },
-        include: [{
-          model: Comment,
-          as: 'comments',
-        }]
-      })
-      .catch(next);
   }
 }

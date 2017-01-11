@@ -31,20 +31,6 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      followers: {
-        type: Sequelize.STRING,
-        references: {
-          model: 'Users',
-          key: 'id'
-        }
-      },
-      followedUsers: {
-        type: Sequelize.STRING,
-        references: {
-          model: 'Users',
-          key: 'id'
-        }
       }
     });
   },

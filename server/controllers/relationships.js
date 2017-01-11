@@ -4,7 +4,10 @@ module.exports = {
   create(req, res, next) {
     Relationship
       .create(req.body, { fields: Object.keys(req.body) })
-      .then(relationship => res.json(relationship))
+      .then(relationship => {
+        console.log(relationship);
+        res.json(relationship)
+      })
       .catch(next);
   },
   destroy(req, res, next) {

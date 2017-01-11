@@ -3,16 +3,13 @@
     {{user.firstName}} {{user.lastName}} overview page!
   </p>
   <a role="button" (click)="goBack()">Back</a>
-  <a *ngIf="isCurrent()" routerLink="/users/{{user.id}}/edit">Edit</a>
-  <a *ngIf="!isCurrent()" (click)="follow()" role="button">Follow</a>
-  <a *ngIf="!isCurrent() && !isFollow()" (click)="unfollow()" role="button">Unfollow</a>
+  <a *ngIf="isCurrent" routerLink="/users/{{user.id}}/edit">Edit</a>
+  <a *ngIf="!isCurrent && !isFollow" (click)="follow()" role="button">Follow</a>
+  <a *ngIf="!isCurrent && isFollow" (click)="unfollow()" role="button">Unfollow</a>
 
-  <app-microposts [microposts]="user.microposts"
+  <app-microposts *ngIf="feed"
+                  [microposts]="feed"
                   [user_id]="user.id"
-                  [current]="isCurrent()">
+                  [current]="isCurrent">
   </app-microposts>
-
-  <code>
-    {{test()}}
-  </code>
 </div>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers } from '@angular/http';
 
 import { User } from './user';
+import { Micropost } from './micropost';
 
 import { AuthHttp } from 'angular2-jwt';
 
@@ -76,6 +77,18 @@ export class UserService {
       })
       .catch(this.errorHandler);
   }
+  feed(id: string): Promise<Micropost[]> {
+    return this.authHttp
+      .get(`api/users/${id}/feed`)
+      .toPromise()
+      .then(res => {
+        let result = res.json();
+        if (result.err) { throw new Error(result.err.message); }
+        return result as Micropost[];
+      })
+      .catch(this.errorHandler);
+  }
+
   errorHandler(err: any): void {
     console.error(err);
   }

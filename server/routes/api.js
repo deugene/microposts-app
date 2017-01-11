@@ -33,6 +33,7 @@ router.post('/users', controllers.users.create);
 router.get('/users/:userId', controllers.users.findById);
 router.put('/users/:userId', controllers.users.update);
 router.delete('/users/:userId', controllers.users.destroy);
+router.get('/users/:userId/feed', controllers.users.feed);
 
 // microposts
 router.post(
@@ -46,10 +47,6 @@ router.put(
 router.delete(
   '/microposts/:micropostId',
   controllers.microposts.destroy
-);
-router.get(
-  '/microposts',
-  controllers.microposts.findAll
 );
 
 //comments
