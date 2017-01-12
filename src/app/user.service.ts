@@ -12,7 +12,9 @@ import 'rxjs/add/operator/toPromise';
 export class UserService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
-  constructor(private authHttp: AuthHttp) { }
+  constructor(
+    private authHttp: AuthHttp
+  ) { }
 
   all(): Promise<User[]> {
     return this.authHttp
@@ -88,9 +90,42 @@ export class UserService {
       })
       .catch(this.errorHandler);
   }
-
   fullName(user: User): string {
     return user.firstName + ' ' + user.lastName;
+  }
+  auth0Update(id: string, update: any): Promise<boolean> {
+    return this.authHttp
+      .post(
+        `api/auth/${id}/update-user-profile`,
+        JSON.stringify(update),
+        { headers: this.headers }
+      )
+      .toPromise()
+      .then(res => {
+        let result = res.json();
+        if (result.err) { throw new Error(result.err.message); }
+        return true;
+      })
+      .catch(this.errorHandler);
+  }
+  changePass(id: string): Promise<any> {
+    return this.authHttp
+      .post(
+        `api/auth/${id}/change-pass`,
+        JSON.stringify({ user_id: id }),
+        { headers: this.headers }
+      )
+      .toPromise()
+      .then(res => {
+        let result = res.json();
+        if (result.err) {
+          throw new Error(result.err.message);
+        } else if (!result.ticket) {
+          throw new Error('Ticket Not Recieved');
+        }
+        return result.ticket;
+      })
+      .catch(this.errorHandler);
   }
 
   errorHandler(err: any): void {

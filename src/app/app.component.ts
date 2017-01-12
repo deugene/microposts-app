@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
         if (!profile) {
           this.user_id = null;
         } else {
-          this.user_id = profile.identities[0].user_id;
+          this.user_id = profile.user_id;
         }
       });
   }

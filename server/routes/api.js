@@ -36,7 +36,8 @@ router.delete('/users/:userId', controllers.users.destroy);
 router.get('/users/:userId/feed', controllers.users.feed);
 
 // auth0 user update
-router.post('/auth/update-user-profile', controllers.auth0.patchUserProfile);
+router.post('/auth/:userId/update-user-profile', controllers.auth0.patchUserProfile);
+router.post('/auth/:userId/change-pass', controllers.auth0.changePass);
 
 // microposts
 router.post(

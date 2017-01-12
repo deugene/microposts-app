@@ -31,7 +31,7 @@ export class AuthService {
       this.accessToken = result.accessToken;
       this.getUserProfile()
         .then(profile => {
-          const user_id = profile.identities[0].user_id;
+          const user_id = profile.user_id;
           this.userService.findById(user_id)
             .then(user => {
               if (!user) {
@@ -43,7 +43,7 @@ export class AuthService {
                 );
                 this.userService.create(newUser)
                   .then(() => {
-                    this.router.navigate([ `users/${user_id}/overview` ]);
+                    this.router.navigate([ `users/${user_id}/edit` ]);
                   });
               } else {
                 this.router.navigate([ `users/${user_id}/overview` ]);

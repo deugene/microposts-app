@@ -37,7 +37,7 @@ export class UserOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.auth.getUserProfile()
       .then(profile => {
-        const currentUserId = profile.identities[0].user_id;
+        const currentUserId = profile.user_id;
         this.userService
           .findById(currentUserId)
           .then(currentUser => {
