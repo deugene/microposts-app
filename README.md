@@ -1,5 +1,37 @@
 # MicropostsApp
 
+This is twitter-like app. It is using next components:
+
+* Front-End - Angular2
+* Back-End - NodeJS + Express
+* Database - Sequelize + PostgreSQL
+
+## Getting Started
+
+To install it to your local machine do this:
+```
+git clone git://github.com/deugene/microposts-app.git
+```
+Installing dependencies:
+```
+cd microposts-app && npm install
+```
+Config your databases for various environments in
+```
+./server/config/config.json
+```
+file.
+
+## Commands
+
+Starting app under development env with nodemon:
+```
+npm run dev
+```
+Navigate to `http://localhost:3000/`.
+
+# Angular2 info
+
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.24.
 
 ## Development server
@@ -21,10 +53,6 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 Before running the tests make sure you are serving the app via `ng serve`.
-
-## Deploying to Github Pages
-
-Run `ng github-pages:deploy` to deploy to Github Pages.
 
 ## Further help
 
