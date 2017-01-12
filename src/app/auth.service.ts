@@ -46,7 +46,7 @@ export class AuthService {
                     this.router.navigate([ `users/${user_id}/edit` ]);
                   });
               } else {
-                this.router.navigate([ `users/${user_id}/overview` ]);
+                this.router.navigate([ `overview/${user_id}` ]);
               }
             });
         });

@@ -8,6 +8,7 @@ import { UserService } from '../../user.service';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+  title = 'Users list';
   users: User[];
 
   constructor(

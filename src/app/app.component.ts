@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app works!';
+  title = 'Microposts App';
   user_id: string;
 
   constructor(
@@ -23,10 +23,5 @@ export class AppComponent implements OnInit {
           this.user_id = profile.user_id;
         }
       });
-  }
-
-  homeUrl(): string {
-    if (this.auth.authenticated) { return `/users/${this.user_id}/overview`; };
-    return '/home';
   }
 }

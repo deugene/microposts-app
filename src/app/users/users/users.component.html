@@ -1,8 +1,8 @@
-<p>
-  users works!
-</p>
-<ul>
-  <li *ngFor="let user of users">
-    <a routerLink="/users/{{user.id}}/overview">{{user.firstName}} {{user.lastName}}</a>
-  </li>
-</ul>
+<div class="container">
+  <h3 id="title">{{title}}</h3>
+  <ul class="list-group">
+    <a class="list-group-item list-group-item-action" *ngFor="let user of users" routerLink="/overview/{{user.id}}">
+      {{user.firstName}} {{user.lastName}}
+    </a>
+  </ul>
+</div>

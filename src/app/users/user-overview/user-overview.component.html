@@ -1,15 +1,22 @@
-<div *ngIf="user && currentUser">
-  <p>
-    {{userService.fullName(user)}} overview page!
-  </p>
-  <a role="button" (click)="goBack()">Back</a>
-  <a *ngIf="isCurrent" routerLink="/users/{{user.id}}/edit">Edit</a>
-  <a *ngIf="!isCurrent && !isFollow" (click)="follow()" role="button">Follow</a>
-  <a *ngIf="!isCurrent && isFollow" (click)="unfollow()" role="button">Unfollow</a>
-
-  <app-microposts *ngIf="feed"
-                  [microposts]="feed"
-                  [user_id]="user.id"
-                  [current]="isCurrent">
-  </app-microposts>
+<div class="container">
+  <div *ngIf="user && currentUser">
+    <div class="row">
+      <div class="col-md-3">
+        <h5 id="title">{{userService.fullName(user)}} overview page!</h5>
+        <div id="buttons">
+          <a class="btn btn-secondary" (click)="goBack()">Back</a>
+          <a *ngIf="isCurrent" routerLink="/users/{{user.id}}/edit" class="btn btn-primary text-white">Edit</a>
+          <a *ngIf="!isCurrent && !isFollow" (click)="follow()" class="btn btn-primary text-white">Follow</a>
+          <a *ngIf="!isCurrent && isFollow" (click)="unfollow()" class="btn btn-warning">Unfollow</a>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <app-microposts *ngIf="feed"
+                        [microposts]="feed"
+                        [user_id]="user.id"
+                        [current]="isCurrent">
+        </app-microposts>
+      </div>
+    </div>
+  </div>
 </div>

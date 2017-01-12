@@ -1,10 +1,62 @@
-<h1>
-  {{title}}
-</h1>
-<a *ngIf="!auth.authenticated()" routerLink="/login">Login</a>
-<a *ngIf="auth.authenticated()" (click)="auth.logout()">Logout</a>
-<a routerLink="{{homeUrl()}}">Home</a>
-<a *ngIf="auth.authenticated()" routerLink="/users">Users</a>
-<a routerLink="/about">About</a>
+<nav class="navbar navbar-full navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">{{title}}</a>
+    <ul class="nav navbar-nav float-sm-right">
+      <li *ngIf="!auth.authenticated()" class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/login">Login</a>
+      </li>
+      <li *ngIf="auth.authenticated()" class="nav-item">
+        <a class="nav-link" href="#" (click)="auth.logout()">Logout</a>
+      </li>
+      <li *ngIf="auth.authenticated() && user_id" class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/overview/{{user_id}}">Home</a>
+      </li>
+      <li *ngIf="!auth.authenticated()" class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/home">Home</a>
+      </li>
+      <li *ngIf="auth.authenticated()" class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/users">Users</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/about">About</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 
-<router-outlet></router-outlet>
+<div id="outlet">
+  <router-outlet></router-outlet>
+</div>
+
+<div class="bg-faded py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <h1>Contact Us!</h1>
+        <p>ievgen@lorem.ipsum</p>
+      </div>
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-md-12 hidden-sm-up text-left">
+            <a href="https://www.facebook.com/profile.php?id=100004862738922">
+              <i class="fa fa-3x fa-fw fa-facebook text-inverse"></i>
+            </a>
+            <a href="https://github.com/deugene">
+              <i class="fa fa-3x fa-fw fa-github text-inverse"></i>
+            </a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 hidden-xs-down text-right">
+            <a href="https://www.facebook.com/profile.php?id=100004862738922">
+              <i class="fa fa-3x fa-fw fa-facebook text-inverse"></i>
+            </a>
+            <a href="https://github.com/deugene">
+              <i class="fa fa-3x fa-fw fa-github text-inverse"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
