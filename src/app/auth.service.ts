@@ -12,8 +12,7 @@ export class AuthService {
   auth0 = new Auth0({
     domain: 'deugene.eu.auth0.com',
     clientID: 'ZLSeG1Tw3JdKCPLw6XrOFSiJ000e2me5',
-    responseType: 'token',
-    callbackURL: 'http://localhost:3000/'
+    responseType: 'token'
   });
 
   private accessToken: string;
