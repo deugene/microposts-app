@@ -1,5 +1,10 @@
-const config = require('../app.config');
 const request = require('request');
+
+let managmentToken = process.env.MANAGEMENT_TOKEN;
+if (!managmentToken) {
+  const config = require('../app.config');
+  managmentToken = config.managmentToken;
+}
 
 module.exports = {
   patchUserProfile(req, res, next) {
@@ -10,7 +15,7 @@ module.exports = {
         method: 'PATCH',
         body: JSON.stringify(req.body),
         headers: {
-          'Authorization': 'Bearer ' + config.managmentToken,
+          'Authorization': 'Bearer ' + managmentToken,
           'Content-Type': 'application/json'
         }
       }, (err, response) => {
@@ -35,7 +40,7 @@ module.exports = {
         method: 'POST',
         body: JSON.stringify(req.body),
         headers: {
-          'Authorization': 'Bearer ' + config.managmentToken,
+          'Authorization': 'Bearer ' + managmentToken,
           'Content-Type': 'application/json'
         }
       })
