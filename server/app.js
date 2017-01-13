@@ -1,4 +1,6 @@
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 const express = require('express');
 const path = require('path');
@@ -26,7 +28,7 @@ app.use((req, res) => {
 // error handler
 app.use(function(err, req, res, next) {
   // only providing error details in development
-  err = req.app.get('env') === 'development'
+  err = process.env.NODE_ENV === 'development'
     ? { message: err.message, stack: err.stack }
     : { message: 'Internal Server Error' };
 
