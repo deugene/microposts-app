@@ -6,6 +6,7 @@ import { User } from '../../user';
 import { Micropost } from '../../micropost';
 
 import { UserService } from '../../user.service';
+import { MicropostService } from '../../micropost.service';
 import { AuthService } from '../../auth.service';
 import { RelationshipService } from '../../relationship.service';
 
@@ -26,12 +27,13 @@ export class UserOverviewComponent implements OnInit {
   isCurrent: boolean;
 
   constructor(
-    private userService: UserService,
     private route: ActivatedRoute,
+    private router: Router,
     private location: Location,
     private auth: AuthService,
+    private userService: UserService,
     private relationshipService: RelationshipService,
-    private router: Router
+    private micropostService: MicropostService
   ) { }
 
   ngOnInit(): void {
@@ -88,6 +90,17 @@ export class UserOverviewComponent implements OnInit {
             this.user = user;
             this.isFollow = false;
           });
+      });
+  }
+
+  addMicropost(body: string): void {
+    const newMicropost = new Micropost(body, this.user.id);
+    this.micropostService
+      .create(newMicropost)
+      .then(() => {
+        this.userService
+          .feed(this.user.id)
+          .then(feed => this.feed = feed);
       });
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { User } from '../../user';
@@ -18,7 +18,8 @@ export class UserEditComponent implements OnInit {
   constructor(
     public userService: UserService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -52,8 +53,8 @@ export class UserEditComponent implements OnInit {
       .then(success => {
         if (success) {
           this.userService.update(this.user.id, this.user);
+          this.router.navigate([ `overview/${this.user.id}` ])
         }
       });
   }
-
 }

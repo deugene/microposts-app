@@ -11,11 +11,13 @@
         </div>
       </div>
       <div class="col-md-9">
-        <app-microposts *ngIf="feed"
-                        [microposts]="feed"
-                        [user_id]="user.id"
-                        [current]="isCurrent">
-        </app-microposts>
+        <div *ngIf="isCurrent">
+          <textarea class="form-control" #body placeholder="Micropost content"></textarea>
+          <div id="submit">
+            <a class="btn btn-primary text-white" (click)="addMicropost(body.value); body.value=''">New Micropost</a>
+          </div>
+        </div>
+        <app-microposts *ngIf="feed" [feed]="feed"></app-microposts>
       </div>
     </div>
   </div>

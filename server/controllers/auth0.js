@@ -1,10 +1,6 @@
 const request = require('request');
 
-let managmentToken = process.env.MANAGEMENT_TOKEN;
-if (!managmentToken) {
-  const config = require('../app.config');
-  managmentToken = config.managmentToken;
-}
+const managmentToken = process.env.MANAGEMENT_TOKEN;
 
 module.exports = {
   patchUserProfile(req, res, next) {

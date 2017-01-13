@@ -34,7 +34,7 @@ export class UserService {
       .then(res => {
         let result = res.json();
         if (result.err && result.err.message !== 'User Not Found') {
-          throw new Error(result.err);
+          throw new Error(result.err.message);
         } else if (result.err && result.err.message === 'User Not Found') {
           result = null;
         }
@@ -86,6 +86,9 @@ export class UserService {
       .then(res => {
         let result = res.json();
         if (result.err) { throw new Error(result.err.message); }
+        result = result.sort((a, b) => {
+          return Date.parse(b.createdAt) - Date.parse(a.createdAt);
+        });
         return result as Micropost[];
       })
       .catch(this.errorHandler);

@@ -5,6 +5,8 @@ import { tokenNotExpired } from 'angular2-jwt';
 import { UserService } from './user.service';
 import { User } from './user';
 
+import { environment } from '../environments/environment';
+
 declare const Auth0: any;
 
 @Injectable()
@@ -12,7 +14,8 @@ export class AuthService {
   auth0 = new Auth0({
     domain: 'deugene.eu.auth0.com',
     clientID: 'ZLSeG1Tw3JdKCPLw6XrOFSiJ000e2me5',
-    responseType: 'token'
+    responseType: 'token',
+    callbackURL: environment.auth0CallbackURL
   });
 
   private accessToken: string;

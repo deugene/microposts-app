@@ -1,13 +1,6 @@
-<div *ngIf="current">
-  <textarea class="form-control" #body placeholder="Micropost content"></textarea>
-  <div id="submit">
-    <a class="btn btn-primary text-white" (click)="addMicropost(body.value); body.value=''">New Micropost</a>
-  </div>
-</div>
-
-<div id="feed" *ngIf="microposts">
+<div id="feed" *ngIf="feed">
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let micropost of microposts">
+    <li class="list-group-item" *ngFor="let micropost of feed">
       <span>{{micropost.body}}</span>
       <span>{{micropost.createdAt}}</span>
     </li>

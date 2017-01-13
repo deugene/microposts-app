@@ -6,17 +6,8 @@ const jwt = require('express-jwt');
 const controllers = require('../controllers');
 
 // auth
-let auth0ClientSecret;
-let auth0ClientId;
-
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-  const config = require('../app.config');
-  auth0ClientId = config.clientId;
-  auth0ClientSecret = config.clientSecret;
-} else {
-  auth0ClientId = process.env.AUTH0_CLIENT_ID;
-  auth0ClientSecret = process.env.AUTH0_CLIENT_SECRET;
-}
+const auth0ClientId = process.env.AUTH0_CLIENT_ID;
+const auth0ClientSecret = process.env.AUTH0_CLIENT_SECRET;
 
 router.use(cors());
 
@@ -53,7 +44,7 @@ router.delete(
   controllers.microposts.destroy
 );
 
-//comments
+// comments
 router.post(
   '/comments',
   controllers.comments.create
@@ -67,7 +58,7 @@ router.delete(
   controllers.comments.destroy
 );
 
-//relationships
+// relationships
 router.post(
   '/relationships',
   controllers.relationships.create

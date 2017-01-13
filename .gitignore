@@ -39,5 +39,5 @@ testem.log
 .DS_Store
 Thumbs.db
 
-#config
-/server/app.config.js
+#.env
+.env
