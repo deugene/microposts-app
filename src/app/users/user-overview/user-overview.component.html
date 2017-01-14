@@ -2,6 +2,9 @@
   <div *ngIf="user && currentUser">
     <div class="row">
       <div class="col-md-3">
+        <div class="text-center">
+          <img src="{{user.picture}}" alt="{{userService.fullName(user)}} avatar" id="avatar">
+        </div>
         <h5 id="title">{{userService.fullName(user)}} overview page!</h5>
         <div id="buttons">
           <a class="btn btn-secondary" (click)="goBack()">Back</a>
@@ -17,7 +20,7 @@
             <a class="btn btn-primary text-white" (click)="addMicropost(body.value); body.value=''">New Micropost</a>
           </div>
         </div>
-        <app-microposts *ngIf="feed" [feed]="feed"></app-microposts>
+        <app-microposts *ngIf="feed" [feed]="feed" [currentId]="currentUser.id"></app-microposts>
       </div>
     </div>
   </div>

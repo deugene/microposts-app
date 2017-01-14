@@ -41,7 +41,8 @@ export class AuthService {
                   profile.email,
                   profile.given_name || profile.name,
                   profile.family_name || '',
-                  user_id
+                  user_id,
+                  profile.picture
                 );
                 this.userService.create(newUser)
                   .then(() => {

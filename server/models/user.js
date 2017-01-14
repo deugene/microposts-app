@@ -22,6 +22,9 @@ module.exports = function(sequelize, DataTypes) {
     admin: {
       defaultValue: false,
       type: DataTypes.BOOLEAN
+    },
+    picture: {
+      type: DataTypes.STRING
     }
   }, {
     classMethods: {

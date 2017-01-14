@@ -6,10 +6,10 @@ export class User {
     public firstName?: string,
     public lastName?: string,
     public id?: string,
+    public picture?: string,
     public admin = false,
     public createdAt?: string,
     public updatedAt?: string,
-    public microposts?: Micropost[],
     public followers?: User[],
     public followedUsers?: User[]
   ) { }

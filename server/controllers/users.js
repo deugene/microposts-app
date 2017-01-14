@@ -22,14 +22,6 @@ module.exports = {
       .findById(req.params.userId, {
         include:[
           {
-            model: Micropost,
-            as: 'microposts',
-            include: [{
-              model: Comment,
-              as: 'comments'
-            }]
-          },
-          {
             model: User,
             as: 'followers'
           },
@@ -87,6 +79,12 @@ module.exports = {
           include: [{
             model: Comment,
             as: 'comments'
+          },
+          {
+            model: User,
+            attributes: [ 'id', 'firstName', 'lastName', 'picture' ],
+            foreignKey: 'userId',
+            as: 'author'
           }]
         })
         .then(feed => res.json(feed || []))

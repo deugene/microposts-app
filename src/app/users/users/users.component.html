@@ -2,6 +2,7 @@
   <h3 id="title">{{title}}</h3>
   <ul class="list-group">
     <a class="list-group-item list-group-item-action" *ngFor="let user of users" routerLink="/overview/{{user.id}}">
+      <img src="{{user.picture}}" alt="{{userService.fullName(user)}} avatar" class="user_avatar">
       {{user.firstName}} {{user.lastName}}
     </a>
   </ul>

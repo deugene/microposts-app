@@ -1,8 +1,25 @@
 <div id="feed" *ngIf="feed">
   <ul class="list-group">
     <li class="list-group-item" *ngFor="let micropost of feed">
-      <span>{{micropost.body}}</span>
-      <span>{{micropost.createdAt}}</span>
+      <img src="{{micropost.author.picture}}"
+           alt="{{userService.fullName(micropost.author.picture)}} avatar"
+           class="user_avatar float-left">
+      <span>
+        <a routerLink="/overview/{{micropost.author.id}}">
+          {{userService.fullName(micropost.author)}}
+        </a>
+      </span>
+      <span class="d-block">{{micropost.body}}</span>
+      <span class="small text-muted">
+        posted at {{postedAt(micropost.createdAt)}}
+      </span>
+      <div *ngIf="isCurrent(micropost.author.id)">
+        <a class="btn btn-primary text-white">Edit</a>
+        <a class="btn btn-danger text-white"
+           (click)="micropostService.destroy(micropost.id)">
+          Delete
+        </a>
+      </div>
     </li>
   </ul>
 </div>

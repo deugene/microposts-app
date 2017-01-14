@@ -14,3 +14,8 @@
 #submit {
   padding-top: 1vh;
 }
+
+#avatar {
+  width: 150px;
+  height: 150px;
+}

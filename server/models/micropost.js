@@ -13,6 +13,7 @@ module.exports = function(sequelize, DataTypes) {
         Micropost.belongsTo(models.User, {
           foreignKey: 'userId',
           onDelete: 'CASCADE',
+          as: 'author'
         });
 
         Micropost.hasMany(models.Comment, {
