@@ -8,13 +8,30 @@ module.exports = {
   create(req, res, next) {
     User
       .create(req.body, { fields: Object.keys(req.body) })
-      .then(user => res.json(user))
+      .then(user => res.json({ data: user }))
       .catch(next);
   },
   all(req, res, next) {
     User
       .all()
-      .then(users => res.json(users))
+      .then(users => {
+        const count = users.length;
+        User
+          .findAll({
+            where: {
+              id: {
+                $gt: req.body.previousId
+              }
+            },
+            limit: req.body.limit
+          })
+          .then(users => res.json({
+            count: count,
+            data: users,
+            previousId: users[req.body.limit - 1]
+          }))
+          .catch(next);
+      })
       .catch(next);
   },
   findById(req, res, next) {
@@ -33,7 +50,7 @@ module.exports = {
       })
       .then(user => {
         if (!user) { throw new Error('User Not Found'); }
-        res.json(user);
+        res.json({ data: user });
       })
       .catch(next);
   },
@@ -44,7 +61,7 @@ module.exports = {
         if (!user) { throw new Error('User Not Found'); }
         user
           .update(req.body, { fields: Object.keys(req.body) })
-          .then(updatedUser => res.json(updatedUser))
+          .then(updatedUser => res.json({ data: updatedUser }))
           .catch(next);
       })
       .catch(next);
@@ -55,7 +72,7 @@ module.exports = {
       .then(user => {
         if (!user) { throw new Error('User Not Found'); }
         user.destroy()
-          .then(() => res.json(user))
+          .then(() => res.json({ data: user }))
           .catch(next);
       })
       .catch(next);
@@ -87,7 +104,7 @@ module.exports = {
             as: 'author'
           }]
         })
-        .then(feed => res.json(feed || []))
+        .then(feed => res.json({ data: feed || [] }))
         .catch(next);
       })
       .catch(next);

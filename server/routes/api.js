@@ -19,7 +19,7 @@ const authCheck = jwt({
 router.all ('/*', authCheck);
 
 // users
-router.get('/users', controllers.users.all);
+router.post('/users/all', controllers.users.all);
 router.post('/users', controllers.users.create);
 router.get('/users/:userId', controllers.users.findById);
 router.put('/users/:userId', controllers.users.update);

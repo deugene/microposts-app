@@ -16,14 +16,18 @@ export class UserService {
     private authHttp: AuthHttp
   ) { }
 
-  all(): Promise<User[]> {
+  all(paginationOpts: any): Promise<any> {
     return this.authHttp
-      .get('api/users')
+      .post(
+        'api/users/all',
+        JSON.stringify(paginationOpts),
+        { headers: this.headers }
+      )
       .toPromise()
       .then(res => {
         let result = res.json();
         if (result.err) { throw new Error(result.err.message); }
-        return result as User[];
+        return result;
       })
       .catch(this.errorHandler);
   }
@@ -38,7 +42,7 @@ export class UserService {
         } else if (result.err && result.err.message === 'User Not Found') {
           result = null;
         }
-        return result as User;
+        return result.data as User;
       })
       .catch(this.errorHandler);
   }
@@ -49,7 +53,7 @@ export class UserService {
       .then(res => {
         let result = res.json();
         if (result.err) { throw new Error(result.err.message); }
-        return result as User;
+        return result.data as User;
       })
       .catch(this.errorHandler);
   }
@@ -75,7 +79,7 @@ export class UserService {
       .then(res => {
         let result = res.json();
         if (result.err) { throw new Error(result.err.message); }
-        return result as User;
+        return result.data as User;
       })
       .catch(this.errorHandler);
   }
@@ -86,10 +90,10 @@ export class UserService {
       .then(res => {
         let result = res.json();
         if (result.err) { throw new Error(result.err.message); }
-        result = result.sort((a, b) => {
+        result.data = result.data.sort((a, b) => {
           return Date.parse(b.createdAt) - Date.parse(a.createdAt);
         });
-        return result as Micropost[];
+        return result.data as Micropost[];
       })
       .catch(this.errorHandler);
   }

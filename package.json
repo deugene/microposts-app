@@ -33,6 +33,7 @@
     "express": "~4.14.0",
     "express-jwt": "^5.1.0",
     "morgan": "~1.7.0",
+    "ng2-pagination": "^2.0.0",
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
     "request": "^2.79.0",

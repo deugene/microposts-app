@@ -1,9 +1,15 @@
 <div class="container">
   <h3 id="title">{{title}}</h3>
   <ul class="list-group">
-    <a class="list-group-item list-group-item-action" *ngFor="let user of users" routerLink="/overview/{{user.id}}">
-      <img src="{{user.picture}}" alt="{{userService.fullName(user)}} avatar" class="user_avatar">
+    <a *ngFor="let user of users | paginate: { itemsPerPage: itemsLimit, currentPage: currentPage, totalItems: totalItems }"
+       class="list-group-item list-group-item-action"
+       routerLink="/overview/{{user.id}}">
+      <img src="{{user.picture}}"
+           alt="{{userService.fullName(user)}} avatar"
+           class="user_avatar">
       {{user.firstName}} {{user.lastName}}
     </a>
   </ul>
+
+  <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
 </div>
