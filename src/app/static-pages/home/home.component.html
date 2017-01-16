@@ -6,6 +6,9 @@
         <a routerLink="/login" class="btn btn-lg btn-secondary">Log In!</a>
         <p class="lead text-white">New User?</p>
         <a routerLink="/signup" class="btn btn-lg btn-secondary">Sign Up!</a>
+        <p class="lead text-white">or login with social</p>
+        <a class="btn btn-danger text-white" (click)="auth.googleLogin()">Google</a>
+        <a class="btn btn-info text-white" (click)="auth.facebookLogin()">Facebook</a>
       </div>
     </div>
   </div>

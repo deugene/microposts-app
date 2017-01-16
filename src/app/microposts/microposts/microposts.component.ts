@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+
 import { Micropost } from '../../micropost';
 
 import { UserService } from '../../user.service';
@@ -9,9 +10,10 @@ import { MicropostService } from '../../micropost.service';
   templateUrl: './microposts.component.html',
   styleUrls: ['./microposts.component.css']
 })
-export class MicropostsComponent implements OnInit {
+export class MicropostsComponent implements OnInit, OnChanges {
   feed: Micropost[];
 
+  @Input() userId: string;
   @Input() currentId: string;
   @Input() isCurrUser: boolean;
 
@@ -33,15 +35,22 @@ export class MicropostsComponent implements OnInit {
     this.getFeed();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    const change = changes[ 'userId' ];
+    if (change.currentValue !== change.previousValue) {
+      this.getFeed();
+    }
+  }
+
   private getFeed(): void {
     const paginationOpts = {
       offset: this.offset,
       limit: this.itemsLimit
     };
     this.userService
-      .feed(this.currentId, paginationOpts)
+      .feed(this.userId, paginationOpts)
       .then(result => {
-        this.feed = result.data;
+        this.feed = result.data.length ? result.data : null;
         this.totalItems = result.count;
       });
   }

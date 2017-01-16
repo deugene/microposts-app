@@ -14,6 +14,7 @@ import 'rxjs/add/operator/switchMap';
 })
 export class UserEditComponent implements OnInit {
   user: User;
+  isSocial: boolean;
 
   constructor(
     public userService: UserService,
@@ -25,7 +26,10 @@ export class UserEditComponent implements OnInit {
   ngOnInit() {
     this.route.params
       .switchMap((params: Params) => this.userService.findById(params['userId']))
-      .subscribe(user => this.user = user);
+      .subscribe(user => {
+        this.isSocial = !user.id.startsWith('auth0');
+        this.user = user;
+      });
   }
 
   goBack(): void {
@@ -41,7 +45,7 @@ export class UserEditComponent implements OnInit {
   onSubmit(): void {
     const auth0Update: any = {};
     auth0Update.id = this.user.id;
-    auth0Update.email = this.user.email;
+    if (!this.isSocial) { auth0Update.email = this.user.email; }
     auth0Update.user_metadata = {
       firstName: this.user.firstName,
       lastName: this.user.lastName,
@@ -57,4 +61,5 @@ export class UserEditComponent implements OnInit {
         }
       });
   }
+
 }

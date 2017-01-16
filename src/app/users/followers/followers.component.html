@@ -1,0 +1,15 @@
+<div *ngIf="users.length">
+  <h3 id="title">{{title}}</h3>
+  <ul class="list-group">
+    <a *ngFor="let user of users | paginate: { id: 'relationships', itemsPerPage: itemsLimit, currentPage: currentPage }"
+        class="list-group-item list-group-item-action"
+        routerLink="/overview/{{user.id}}">
+      <img src="{{user.picture}}"
+            alt="{{userService.fullName(user)}} avatar"
+            class="user_avatar">
+      {{userService.fullName(user)}}
+    </a>
+  </ul>
+
+  <pagination-controls id="relationships" (pageChange)="currentPage = $event"></pagination-controls>
+</div>

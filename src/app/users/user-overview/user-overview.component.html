@@ -1,13 +1,13 @@
 <div class="container">
   <div *ngIf="user && currentUser">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-lg-4">
         <div class="text-center">
+          <h5 id="title">{{userService.fullName(user)}}</h5>
           <img src="{{user.picture}}"
                alt="{{userService.fullName(user)}} avatar"
                id="avatar">
         </div>
-        <h5 id="title">{{userService.fullName(user)}} overview page!</h5>
         <div id="buttons">
           <a class="btn btn-secondary" (click)="goBack()">Back</a>
           <a *ngIf="isCurrent"
@@ -26,9 +26,32 @@
             Unfollow
           </a>
         </div>
+        <div>
+          <a class="btn btn-sm btn-outline-info text-info"
+             (click)="showRelationships('following')"
+             [class.disabled]="!user.followedUsers.length">
+            {{user.followedUsers.length}} following
+          </a>
+          <a class="btn btn-sm btn-outline-info text-info"
+             (click)="showRelationships('followers')"
+             [class.disabled]="!user.followers.length">
+            {{user.followers.length}} followers
+          </a>
+          <a *ngIf="relationshipType"
+             class="btn btn-sm btn-outline-secondary text-secondary"
+             (click)="hideRelationships()">
+            Hide
+          </a>
+        </div>
+        <div *ngIf="relationshipType">
+          <app-followers [title]="relationshipType"
+                         [users]="relationshipUsers">
+          </app-followers>
+        </div>
       </div>
-      <div class="col-md-9">
-        <app-microposts [currentId]="currentUser.id"
+      <div class="col-lg-8">
+        <app-microposts [userId]="user.id"
+                        [currentId]="currentUser.id"
                         [isCurrUser]="isCurrent">
         </app-microposts>
       </div>

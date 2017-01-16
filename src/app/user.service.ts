@@ -40,7 +40,7 @@ export class UserService {
         if (result.err && result.err.message !== 'User Not Found') {
           throw new Error(result.err.message);
         } else if (result.err && result.err.message === 'User Not Found') {
-          result = null;
+          result.data = null;
         }
         return result.data as User;
       })

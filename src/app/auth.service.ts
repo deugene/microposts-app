@@ -38,7 +38,7 @@ export class AuthService {
             .then(user => {
               if (!user) {
                 const newUser = new User(
-                  profile.email,
+                  profile.email || '',
                   profile.given_name || profile.name,
                   profile.family_name || '',
                   user_id,
@@ -83,6 +83,14 @@ export class AuthService {
   googleLogin(): void {
     this.auth0.login({
       connection: 'google-oauth2'
+    }, err => {
+      if (err) { alert('error: ' + err.message); }
+    });
+  }
+
+  facebookLogin(): void {
+    this.auth0.login({
+      connection: 'facebook'
     }, err => {
       if (err) { alert('error: ' + err.message); }
     });

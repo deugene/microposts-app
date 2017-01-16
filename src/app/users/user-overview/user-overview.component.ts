@@ -21,6 +21,9 @@ export class UserOverviewComponent implements OnInit {
   user: User;
   currentUser: User;
 
+  relationshipType: string = null;
+  relationshipUsers: User[] = null;
+
   feed: Micropost[];
 
   isFollow: boolean;
@@ -37,6 +40,10 @@ export class UserOverviewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.init();
+  }
+
+  init(): void {
     this.auth.getUserProfile()
       .then(profile => {
         const currentUserId = profile.user_id;
@@ -55,6 +62,7 @@ export class UserOverviewComponent implements OnInit {
                   this.user.id
                 );
                 this.isCurrent = this.user.id === this.currentUser.id;
+                this.hideRelationships();
               });
           });
       });
@@ -88,6 +96,20 @@ export class UserOverviewComponent implements OnInit {
             this.isFollow = false;
           });
       });
+  }
+
+  showRelationships(type: string): void {
+    this.relationshipType = type;
+    if (type === 'followers') {
+      this.relationshipUsers = this.user.followers;
+    } else {
+      this.relationshipUsers = this.user.followedUsers;
+    }
+  }
+
+  hideRelationships(): void {
+    this.relationshipType = null;
+    this.relationshipUsers = null;
   }
 
 }

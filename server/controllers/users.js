@@ -39,10 +39,12 @@ module.exports = {
         include:[
           {
             model: User,
+            attributes: [ 'id', 'firstName', 'lastName', 'picture' ],
             as: 'followers'
           },
           {
             model: User,
+            attributes: [ 'id', 'firstName', 'lastName', 'picture' ],
             as: 'followedUsers'
           }
         ]
@@ -81,6 +83,7 @@ module.exports = {
       .findById(req.params.userId, {
         include: [{
           model: User,
+          attributes: [ 'id' ],
           as: 'followedUsers'
         }]
       })

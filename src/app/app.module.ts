@@ -22,6 +22,7 @@ import { LoginComponent } from './users/login/login.component';
 import { SignupComponent } from './users/signup/signup.component';
 import { MicropostsComponent } from './microposts/microposts/microposts.component';
 import { DialogComponent } from './dialog/dialog.component';
+import { FollowersComponent } from './users/followers/followers.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({}), http, options);
@@ -38,7 +39,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     LoginComponent,
     SignupComponent,
     MicropostsComponent,
-    DialogComponent
+    DialogComponent,
+    FollowersComponent
   ],
   imports: [
     BrowserModule,
