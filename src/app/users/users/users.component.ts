@@ -15,8 +15,7 @@ export class UsersComponent implements OnInit {
   currentPage: number;
   totalItems: number;
   itemsLimit = 10;
-  previousId = '';
-
+  offset = 0;
 
   constructor(
     private userService: UserService,
@@ -26,16 +25,23 @@ export class UsersComponent implements OnInit {
     this.getAllUsers();
   }
 
-  getAllUsers(): void {
+  private getAllUsers(): void {
     const paginationOpts = {
-      previousId: this.previousId,
+      offset: this.offset,
       limit: this.itemsLimit
     };
-    this.userService.all(paginationOpts).then(result => {
-      this.users = result.data;
-      this.previousId = result.previousId;
-      this.totalItems = result.count;
-    });
+    this.userService
+      .all(paginationOpts)
+      .then(result => {
+        this.users = result.data;
+        this.totalItems = result.count;
+      });
+  }
+
+  pageChanged(newPage: number): void {
+    this.offset = (newPage - 1) * this.itemsLimit;
+    this.currentPage = newPage;
+    this.getAllUsers();
   }
 
 }

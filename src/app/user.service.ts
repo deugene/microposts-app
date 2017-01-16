@@ -83,17 +83,18 @@ export class UserService {
       })
       .catch(this.errorHandler);
   }
-  feed(id: string): Promise<Micropost[]> {
+  feed(id: string, paginationOpts: any): Promise<any> {
     return this.authHttp
-      .get(`api/users/${id}/feed`)
+      .post(
+        `api/users/${id}/feed`,
+        JSON.stringify(paginationOpts),
+        { headers: this.headers }
+      )
       .toPromise()
       .then(res => {
         let result = res.json();
         if (result.err) { throw new Error(result.err.message); }
-        result.data = result.data.sort((a, b) => {
-          return Date.parse(b.createdAt) - Date.parse(a.createdAt);
-        });
-        return result.data as Micropost[];
+        return result;
       })
       .catch(this.errorHandler);
   }

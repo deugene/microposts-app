@@ -55,9 +55,6 @@ export class UserOverviewComponent implements OnInit {
                   this.user.id
                 );
                 this.isCurrent = this.user.id === this.currentUser.id;
-                this.userService
-                  .feed(this.user.id)
-                  .then(feed => this.feed = feed);
               });
           });
       });
@@ -93,14 +90,4 @@ export class UserOverviewComponent implements OnInit {
       });
   }
 
-  addMicropost(body: string): void {
-    const newMicropost = new Micropost(body, this.user.id);
-    this.micropostService
-      .create(newMicropost)
-      .then(() => {
-        this.userService
-          .feed(this.user.id)
-          .then(feed => this.feed = feed);
-      });
-  }
 }

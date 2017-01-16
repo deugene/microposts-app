@@ -1,6 +1,13 @@
+<div *ngIf="isCurrUser">
+  <textarea class="form-control" #body placeholder="Micropost content"></textarea>
+  <div id="submit">
+    <a class="btn btn-primary text-white" (click)="addMicropost(body.value); body.value=''">New Micropost</a>
+  </div>
+</div>
 <div id="feed" *ngIf="feed">
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let micropost of feed">
+    <li *ngFor="let micropost of feed | paginate: { itemsPerPage: itemsLimit, currentPage: currentPage, totalItems: totalItems }"
+        class="list-group-item" >
       <img src="{{micropost.author.picture}}"
            alt="{{userService.fullName(micropost.author.picture)}} avatar"
            class="user_avatar float-left">
@@ -22,4 +29,6 @@
       </div>
     </li>
   </ul>
+
+  <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
 </div>

@@ -13,23 +13,22 @@ module.exports = {
   },
   all(req, res, next) {
     User
-      .all()
+      .findAll({
+        attributes: [ 'id' ]
+      })
       .then(users => {
         const count = users.length;
         User
           .findAll({
-            where: {
-              id: {
-                $gt: req.body.previousId
-              }
-            },
+            offset: req.body.offset,
             limit: req.body.limit
           })
-          .then(users => res.json({
-            count: count,
-            data: users,
-            previousId: users[req.body.limit - 1]
-          }))
+          .then(users => {
+            res.json({
+              count: count,
+              data: users
+            });
+          })
           .catch(next);
       })
       .catch(next);
@@ -87,24 +86,45 @@ module.exports = {
       })
       .then(user => {
         if (!user) { throw new Error('User Not Found'); }
+        const followedUsers = user.followedUsers.concat(user).map(u => u.id);
         Micropost.findAll({
           where: {
             userId: {
-              $in: user.followedUsers.concat(user).map(u => u.id)
+              $in: followedUsers
             }
           },
-          include: [{
-            model: Comment,
-            as: 'comments'
-          },
-          {
-            model: User,
-            attributes: [ 'id', 'firstName', 'lastName', 'picture' ],
-            foreignKey: 'userId',
-            as: 'author'
-          }]
+          attributes: [ 'id' ]
         })
-        .then(feed => res.json({ data: feed || [] }))
+        .then(feed => {
+          const count = feed.length;
+          Micropost.findAll({
+            where: {
+              userId: {
+                $in: followedUsers
+              },
+            },
+            offset: req.body.offset,
+            limit: req.body.limit,
+            order: [[ 'id', 'DESC' ]],
+            include: [{
+              model: Comment,
+              as: 'comments'
+            },
+            {
+              model: User,
+              attributes: [ 'id', 'firstName', 'lastName', 'picture' ],
+              foreignKey: 'userId',
+              as: 'author'
+            }]
+          })
+          .then(feed => {
+            res.json({
+              count: count,
+              data: feed || []
+            });
+          })
+          .catch(next);
+        })
         .catch(next);
       })
       .catch(next);

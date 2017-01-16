@@ -10,8 +10,15 @@ import { MicropostService } from '../../micropost.service';
   styleUrls: ['./microposts.component.css']
 })
 export class MicropostsComponent implements OnInit {
-  @Input() feed: Micropost[];
+  feed: Micropost[];
   @Input() currentId: string;
+  @Input() isCurrUser: boolean;
+
+  // pagination
+  currentPage: number;
+  totalItems: number;
+  itemsLimit = 10;
+  offset = 0;
 
   constructor(
     public userService: UserService,
@@ -19,6 +26,26 @@ export class MicropostsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getFeed();
+  }
+
+  private getFeed(): void {
+    const paginationOpts = {
+      offset: this.offset,
+      limit: this.itemsLimit
+    };
+    this.userService
+      .feed(this.currentId, paginationOpts)
+      .then(result => {
+        this.feed = result.data;
+        this.totalItems = result.count;
+      });
+  }
+
+  pageChanged(newPage: number): void {
+    this.offset = (newPage - 1) * this.itemsLimit;
+    this.currentPage = newPage;
+    this.getFeed();
   }
 
   postedAt(date: string): string {
@@ -35,7 +62,10 @@ export class MicropostsComponent implements OnInit {
 
   }
 
-  delete(id: string): void {
-
+  addMicropost(body: string): void {
+    const newMicropost = new Micropost(body, this.currentId);
+    this.micropostService
+      .create(newMicropost)
+      .then(() => this.getFeed());
   }
 }

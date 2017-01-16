@@ -24,7 +24,7 @@ router.post('/users', controllers.users.create);
 router.get('/users/:userId', controllers.users.findById);
 router.put('/users/:userId', controllers.users.update);
 router.delete('/users/:userId', controllers.users.destroy);
-router.get('/users/:userId/feed', controllers.users.feed);
+router.post('/users/:userId/feed', controllers.users.feed);
 
 // auth0 user update
 router.post('/auth/:userId/update-user-profile', controllers.auth0.patchUserProfile);

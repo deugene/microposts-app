@@ -7,3 +7,11 @@
   height: 50px;
   margin-right: 10px;
 }
+
+#submit {
+  padding-top: 1vh;
+}
+
+ul {
+  padding-bottom: 2vh;
+}

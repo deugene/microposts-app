@@ -14,13 +14,9 @@
         </div>
       </div>
       <div class="col-md-9">
-        <div *ngIf="isCurrent">
-          <textarea class="form-control" #body placeholder="Micropost content"></textarea>
-          <div id="submit">
-            <a class="btn btn-primary text-white" (click)="addMicropost(body.value); body.value=''">New Micropost</a>
-          </div>
-        </div>
-        <app-microposts *ngIf="feed" [feed]="feed" [currentId]="currentUser.id"></app-microposts>
+        <app-microposts [currentId]="currentUser.id"
+                        [isCurrUser]="isCurrent">
+        </app-microposts>
       </div>
     </div>
   </div>
