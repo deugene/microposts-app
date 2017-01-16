@@ -1,0 +1,32 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1999;
+}
+
+.dialog {
+  z-index: 2000;
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 4vh;
+  margin-top: 10vh;
+  margin-right: auto;
+  margin-left: auto;
+  min-height: 25vh;
+  width: 90vw;
+  max-width: 520px;
+  background-color: #fff;
+  padding: 4vh;
+  box-shadow: 0 0.7vw 0.8vw -0.4vw rgba(0, 0, 0, 0.2), 0 1.3vw 1.9vw 0.2vw rgba(0, 0, 0, 0.14), 0 0.5vw 2.4vw 0.4vw rgba(0, 0, 0, 0.12);
+}
+
+@media (min-width: 80vw) {
+  .dialog {
+    top: 4vw;
+  }
+}

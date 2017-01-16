@@ -1,0 +1,4 @@
+<div [@dialog] *ngIf="dialogOptions.visible" class="dialog">
+   <ng-content></ng-content>
+</div>
+<div *ngIf="dialogOptions.visible" class="overlay" (click)="cancel()"></div>

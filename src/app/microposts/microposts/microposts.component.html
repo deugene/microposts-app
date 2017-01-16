@@ -1,6 +1,6 @@
 <div *ngIf="isCurrUser">
   <textarea class="form-control" #body placeholder="Micropost content"></textarea>
-  <div id="submit">
+  <div class="submit">
     <a class="btn btn-primary text-white" (click)="addMicropost(body.value); body.value=''">New Micropost</a>
   </div>
 </div>
@@ -20,15 +20,74 @@
       <span class="small text-muted">
         posted at {{postedAt(micropost.createdAt)}}
       </span>
-      <div *ngIf="isCurrent(micropost.author.id)">
-        <a class="btn btn-primary text-white">Edit</a>
-        <a class="btn btn-danger text-white"
-           (click)="micropostService.destroy(micropost.id)">
+      <span *ngIf="isCurrent(micropost.author.id)">
+        <a class="btn btn-sm btn-outline-primary text-primary"
+           (click)="showModal(micropost, 'edit')">
+          Edit
+        </a>
+        <a class="btn btn-sm btn-outline-danger text-danger"
+           (click)="showModal(micropost, 'delete')">
           Delete
         </a>
-      </div>
+      </span>
     </li>
   </ul>
 
   <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+
+  <div *ngIf="showDialog">
+    <app-dialog [(dialogOptions)]="showDialog" #dialog>
+
+      <div *ngIf="showDialog.type === 'delete'">
+        <div class="text-center">
+          <h2 id="del-dialog-header">Are you shure?</h2>
+          <div class="container-fluid">
+            <div class="row row-centered">
+              <div class="col-md-4 col-centered">
+                <a class="btn-block btn btn-lg btn-secondary"
+                        (click)="dialog.cancel()">
+                  No
+                </a>
+              </div>
+              <div class="col-md-4 col-centered">
+                <a class="btn-block btn btn-lg btn-danger"
+                        (click)="delete(); dialog.cancel()">
+                  Yes
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showDialog.type === 'edit'">
+        <div class="container-fluid">
+          <div class="text-center">
+            <h2>Edit Micropost</h2>
+          </div>
+
+          <div *ngIf="selectedMicropost">
+            <textarea class="form-control"
+                      placeholder="Micropost content"
+                      [value]="selectedMicropost.body"
+                      #editBody>
+            </textarea>
+            <div class="submit">
+              <a class="btn btn-primary text-white"
+                 (click)="edit(editBody.value); editBody.value = ''; dialog.cancel()">
+                Save
+              </a>
+              <a class="btn btn-secondary"
+                 (click)="dialog.cancel()">
+                Cancel
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </app-dialog>
+  </div>
+
 </div>

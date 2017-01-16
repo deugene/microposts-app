@@ -3,14 +3,28 @@
     <div class="row">
       <div class="col-md-3">
         <div class="text-center">
-          <img src="{{user.picture}}" alt="{{userService.fullName(user)}} avatar" id="avatar">
+          <img src="{{user.picture}}"
+               alt="{{userService.fullName(user)}} avatar"
+               id="avatar">
         </div>
         <h5 id="title">{{userService.fullName(user)}} overview page!</h5>
         <div id="buttons">
           <a class="btn btn-secondary" (click)="goBack()">Back</a>
-          <a *ngIf="isCurrent" routerLink="/users/{{user.id}}/edit" class="btn btn-primary text-white">Edit</a>
-          <a *ngIf="!isCurrent && !isFollow" (click)="follow()" class="btn btn-primary text-white">Follow</a>
-          <a *ngIf="!isCurrent && isFollow" (click)="unfollow()" class="btn btn-warning">Unfollow</a>
+          <a *ngIf="isCurrent"
+             routerLink="/users/{{user.id}}/edit"
+             class="btn btn-primary text-white">
+            Edit
+          </a>
+          <a *ngIf="!isCurrent && !isFollow"
+             (click)="follow()"
+             class="btn btn-primary text-white">
+            Follow
+          </a>
+          <a *ngIf="!isCurrent && isFollow"
+             (click)="unfollow()"
+             class="btn btn-outline-primary text-primary">
+            Unfollow
+          </a>
         </div>
       </div>
       <div class="col-md-9">

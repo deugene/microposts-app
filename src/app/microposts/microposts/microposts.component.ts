@@ -11,8 +11,12 @@ import { MicropostService } from '../../micropost.service';
 })
 export class MicropostsComponent implements OnInit {
   feed: Micropost[];
+
   @Input() currentId: string;
   @Input() isCurrUser: boolean;
+
+  showDialog = { visible: false, type: '' };
+  selectedMicropost: Micropost;
 
   // pagination
   currentPage: number;
@@ -58,8 +62,22 @@ export class MicropostsComponent implements OnInit {
     return authorId === this.currentId;
   }
 
-  edit(): void {
+  edit(body: string): void {
+    this.micropostService
+      .update(this.selectedMicropost.id, { body: body })
+      .then(() => {
+        this.selectedMicropost = undefined;
+        this.getFeed();
+      });
+  }
 
+  delete(): void {
+    this.micropostService
+      .destroy(this.selectedMicropost.id)
+      .then(() => {
+        this.selectedMicropost = undefined;
+        this.getFeed();
+      });
   }
 
   addMicropost(body: string): void {
@@ -67,5 +85,12 @@ export class MicropostsComponent implements OnInit {
     this.micropostService
       .create(newMicropost)
       .then(() => this.getFeed());
+  }
+
+  // show dialogs
+  showModal(micropost: Micropost, type: string): void {
+    this.selectedMicropost = micropost;
+    this.showDialog.visible = !this.showDialog.visible;
+    this.showDialog.type = type;
   }
 }

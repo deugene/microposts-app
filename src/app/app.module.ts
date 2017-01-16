@@ -21,6 +21,7 @@ import { UserOverviewComponent } from './users/user-overview/user-overview.compo
 import { LoginComponent } from './users/login/login.component';
 import { SignupComponent } from './users/signup/signup.component';
 import { MicropostsComponent } from './microposts/microposts/microposts.component';
+import { DialogComponent } from './dialog/dialog.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({}), http, options);
@@ -36,7 +37,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     UserOverviewComponent,
     LoginComponent,
     SignupComponent,
-    MicropostsComponent
+    MicropostsComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,

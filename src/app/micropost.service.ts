@@ -23,7 +23,7 @@ export class MicropostService {
     .then(res => {
       let result = res.json();
       if (result.err) { throw new Error(result.err.message); }
-      return result as Micropost;
+      return result.data as Micropost;
     })
     .catch(this.errorHandler);
   }
@@ -49,7 +49,7 @@ export class MicropostService {
       .then(res => {
         let result = res.json();
         if (result.err) { throw new Error(result.err.message); }
-        return result as Micropost;
+        return result.data as Micropost;
       })
       .catch(this.errorHandler);
   }

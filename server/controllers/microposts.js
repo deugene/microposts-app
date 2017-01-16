@@ -4,7 +4,7 @@ module.exports = {
   create(req, res, next) {
     Micropost
       .create(req.body, { fields: Object.keys(req.body) })
-      .then(micropost => res.json(micropost))
+      .then(micropost => res.json({ data: micropost }))
       .catch(next);
   },
   update(req, res, next) {
@@ -14,7 +14,7 @@ module.exports = {
         if (!micropost) { throw new Error('Micropost Not Found'); }
         micropost
           .update(req.body, { fields: Object.keys(req.body) })
-          .then(updatedMicropost => res.json(updatedMicropost))
+          .then(updatedMicropost => res.json({ data: updatedMicropost }))
           .catch(next);
       })
       .catch(next);
@@ -25,7 +25,7 @@ module.exports = {
       .then(micropost => {
         if (!micropost) { throw new Error('Micropost Not Found'); }
         micropost.destroy()
-          .then(() => res.json(micropost))
+          .then(() => res.json({ data: micropost }))
           .catch(next);
       })
       .catch(next);
