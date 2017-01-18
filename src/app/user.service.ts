@@ -8,6 +8,11 @@ import { AuthHttp } from 'angular2-jwt';
 
 import 'rxjs/add/operator/toPromise';
 
+export interface PaginationResult {
+  count: number;
+  data: User[] & Micropost[];
+}
+
 @Injectable()
 export class UserService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
@@ -16,7 +21,7 @@ export class UserService {
     private authHttp: AuthHttp
   ) { }
 
-  all(paginationOpts: any): Promise<any> {
+  all(paginationOpts: any): Promise<PaginationResult> {
     return this.authHttp
       .post(
         'api/users/all',
@@ -27,7 +32,7 @@ export class UserService {
       .then(res => {
         let result = res.json();
         if (result.err) { throw new Error(result.err.message); }
-        return result;
+        return result as PaginationResult;
       })
       .catch(this.errorHandler);
   }
@@ -64,7 +69,7 @@ export class UserService {
       .then(res => {
         let result = res.json();
         if (result.err) { throw new Error(result.err.message); }
-        return null;
+        return result.data as User;
       })
       .catch(this.errorHandler);
   }
@@ -83,7 +88,7 @@ export class UserService {
       })
       .catch(this.errorHandler);
   }
-  feed(id: string, paginationOpts: any): Promise<any> {
+  feed(id: string, paginationOpts: any): Promise<PaginationResult> {
     return this.authHttp
       .post(
         `api/users/${id}/feed`,
@@ -94,7 +99,7 @@ export class UserService {
       .then(res => {
         let result = res.json();
         if (result.err) { throw new Error(result.err.message); }
-        return result;
+        return result as PaginationResult;
       })
       .catch(this.errorHandler);
   }

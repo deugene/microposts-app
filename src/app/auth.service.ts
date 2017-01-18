@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { tokenNotExpired } from 'angular2-jwt';
 
-import { UserService } from './user.service';
+import { UserService, PaginationResult } from './user.service';
 import { User } from './user';
 
 import { environment } from '../environments/environment';
@@ -32,27 +32,29 @@ export class AuthService {
       localStorage.setItem('id_token', result.idToken);
       this.accessToken = result.accessToken;
       this.getUserProfile()
-        .then(profile => {
-          const user_id = profile.user_id;
-          this.userService.findById(user_id)
-            .then(user => {
-              if (!user) {
-                const newUser = new User(
-                  profile.email || '',
-                  profile.given_name || profile.name,
-                  profile.family_name || '',
-                  user_id,
-                  profile.picture
-                );
-                this.userService.create(newUser)
-                  .then(() => {
-                    this.router.navigate([ `users/${user_id}/edit` ]);
-                  });
-              } else {
-                this.router.navigate([ `overview/${user_id}` ]);
-              }
+        .then(() => this.userService.findById(this.userProfile.user_id))
+        .then((user): Promise<User> => {
+          if (user) {
+            return Promise
+              .reject(this.router.navigate([ `overview/${user.id}` ]));
+          }
+          const profile = this.userProfile;
+          return Promise.resolve(new User(
+            profile.email || '',
+            profile.given_name || profile.name,
+            profile.family_name || '',
+            profile.user_id,
+            profile.picture
+          ));
+        })
+        .then((newUser): Promise<User> => {
+          return this.userService.all({ limit: 1, offset: 0 })
+            .then((res): Promise<User> => {
+              if (res.data.length === 0) { newUser.admin = true; }
+              return this.userService.create(newUser);
             });
-        });
+        })
+        .then(newUser => this.router.navigate([ `users/${newUser.id}/edit` ]));
     } else if (result && result.error) {
       alert('error: ' + result.error);
     }
@@ -120,7 +122,7 @@ export class AuthService {
             return;
           }
           localStorage.setItem('user_profile', JSON.stringify(profile));
-          // this.userProfile = profile;
+          this.userProfile = profile;
           res(profile);
         });
       } else {

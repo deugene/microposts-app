@@ -44,4 +44,10 @@ export class UsersComponent implements OnInit {
     this.getAllUsers();
   }
 
+  delete(id: string): void {
+    this.userService.destroy(id)
+      .then(() => this.getAllUsers());
+
+  }
+
 }

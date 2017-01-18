@@ -15,6 +15,11 @@
              class="btn btn-primary text-white">
             Edit
           </a>
+          <a *ngIf="currentUser.admin"
+             class="btn btn-outline-danger text-danger"
+             (click)="delete(user.id); $event.stopPropagation()">
+            Delete
+          </a>
           <a *ngIf="!isCurrent && !isFollow"
              (click)="follow()"
              class="btn btn-primary text-white">
