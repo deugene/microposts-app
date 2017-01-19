@@ -30,7 +30,7 @@ app.use(function(err, req, res, next) {
   // only providing error details in development
   err = process.env.NODE_ENV === 'development'
     ? { message: err.message, stack: err.stack }
-    : { message: 'Internal Server Error' };
+    : { message: err.message };
 
   // send error json
   res.json({ err: err });

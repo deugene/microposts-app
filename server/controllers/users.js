@@ -67,6 +67,7 @@ module.exports = {
   },
   destroy(req, res, next) {
     let deletedUser;
+    let lastAdmin;
     User.findAll({
       where: { admin: true },
       offset: 0,
@@ -74,11 +75,12 @@ module.exports = {
       attributes: [ 'id' ],
     })
       .then(admins => {
-        if (admins.length < 2) { throw new Error('User is the last admin'); }
+        if (admins.length < 2) { lastAdmin = true; }
         return User.findById(req.params.userId)
       })
       .then(user => {
         if (!user) { throw new Error('User Not Found'); }
+        if (user.admin && lastAdmin) { throw new Error('User is the last admin'); }
         deletedUser = user;
         return user.destroy()
       })
