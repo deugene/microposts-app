@@ -6,7 +6,7 @@
             [(ngModel)]="micropost.body"
             name="body"
             required
-            pattern=".{0,140}">
+            pattern="(.|\n){0,140}">
   </textarea>
 
   <div *ngIf="formErrors.body" class="alert alert-danger">

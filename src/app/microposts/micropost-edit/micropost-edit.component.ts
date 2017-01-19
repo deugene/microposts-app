@@ -31,7 +31,7 @@ export class MicropostEditComponent implements AfterViewChecked {
       'required': 'Content is required.',
       'pattern': 'Max length is 140 characters'
     }
-  }
+  };
 
   constructor(private micropostService: MicropostService) { }
 
@@ -74,15 +74,18 @@ export class MicropostEditComponent implements AfterViewChecked {
 
   onSubmit(): void {
     if (this.micropostForm.form.valid) {
-      if (this.mode === 'edit') {
-        this.micropostService
-          .update(this.micropost.id, { body: this.micropost.body })
-          .then(() => this.refresh.emit());
-      } else {
+      Promise.resolve((): Promise<Micropost> => {
+        if (this.mode === 'edit') {
+          return this.micropostService
+            .update(this.micropost.id, { body: this.micropost.body });
+        }
         this.micropost.userId = this.currentId;
-        this.micropostService.create(this.micropost)
-          .then(() => this.refresh.emit());
-      }
+        return this.micropostService.create(this.micropost);
+      })
+      .then(() => {
+        this.refresh.emit();
+        this.micropostForm.reset();
+      });
     }
   }
 
