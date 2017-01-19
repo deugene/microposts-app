@@ -18,8 +18,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     email: {
       allowNull: false,
-      type: DataTypes.STRING,
-      validate: { isEmail: true }
+      type: DataTypes.STRING
     },
     admin: {
       defaultValue: false,
