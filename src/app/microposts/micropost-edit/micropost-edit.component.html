@@ -1,0 +1,39 @@
+<form #micropostForm="ngForm"
+      (ngSubmit)="onSubmit()">
+
+  <textarea class="form-control"
+            placeholder="Micropost content"
+            [(ngModel)]="micropost.body"
+            name="body"
+            required
+            pattern=".{0,140}">
+  </textarea>
+
+  <div *ngIf="formErrors.body" class="alert alert-danger">
+    {{ formErrors.body }}
+  </div>
+
+  <div class="submit">
+
+    <div *ngIf="mode !== 'edit'">
+      <button class="btn btn-primary text-white"
+              type="submit"
+              [class.disabled]="submitDisabled">
+        New Micropost
+      </button>
+    </div>
+
+    <div *ngIf="mode === 'edit'">
+      <a class="btn btn-secondary"
+         (click)="refresh.emit()">
+        Cancel
+      </a>
+      <button class="btn btn-primary text-white"
+              type="submit"
+              [class.disabled]="submitDisabled">
+        Save
+      </button>
+    </div>
+  </div>
+
+</form>

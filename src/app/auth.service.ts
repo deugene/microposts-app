@@ -32,11 +32,11 @@ export class AuthService {
       localStorage.setItem('id_token', result.idToken);
       this.accessToken = result.accessToken;
       this.getUserProfile()
-        .then(() => this.userService.findById(this.userProfile.user_id))
+        .then(profile => this.userService.findById(profile.user_id))
         .then((user): Promise<User> => {
           if (user) {
-            return Promise
-              .reject(this.router.navigate([ `overview/${user.id}` ]));
+            this.router.navigate([ `overview/${user.id}` ])
+            return Promise.reject(null);
           }
           const profile = this.userProfile;
           return Promise.resolve(new User(
@@ -48,13 +48,12 @@ export class AuthService {
           ));
         })
         .then((newUser): Promise<User> => {
-          return this.userService.all({ limit: 1, offset: 0 })
-            .then((res): Promise<User> => {
-              if (res.data.length === 0) { newUser.admin = true; }
-              return this.userService.create(newUser);
-            });
+          return this.userService.create(newUser);
         })
-        .then(newUser => this.router.navigate([ `users/${newUser.id}/edit` ]));
+        .then(newUser => this.router.navigate([ `users/${newUser.id}/edit` ]))
+        .catch(err => {
+          if (err) { console.error(err); }
+        });
     } else if (result && result.error) {
       alert('error: ' + result.error);
     }

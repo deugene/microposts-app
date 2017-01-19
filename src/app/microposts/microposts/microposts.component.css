@@ -8,10 +8,21 @@
   margin-right: 10px;
 }
 
-.submit {
-  padding-top: 1vh;
-}
-
 ul {
   padding-bottom: 2vh;
+}
+
+#del-dialog-header {
+  margin-bottom: 30px;
+}
+
+.row-centered {
+  text-align: center;
+}
+
+.col-centered {
+  display: inline-block;
+  float: none;
+  text-align: left;
+  margin-right: -4px;
 }

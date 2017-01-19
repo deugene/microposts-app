@@ -142,7 +142,7 @@ export class UserService {
   }
 
   errorHandler(err: any): void {
-    console.error(err);
+    alert(err);
   }
 
 }

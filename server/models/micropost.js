@@ -3,7 +3,8 @@ module.exports = function(sequelize, DataTypes) {
   var Micropost = sequelize.define('Micropost', {
     body: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      validate: { len: [ 0, 140 ] }
     }
   }, {
     classMethods: {

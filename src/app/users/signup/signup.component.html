@@ -1,16 +1,43 @@
 <div class="container">
-  <form>
+  <form #signupForm="ngForm"
+        (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="email">Email: </label>
-      <input type="email" class="form-control" id="email" #email placeholder="youremail@example.com">
+      <input type="email"
+             class="form-control"
+             id="email"
+             [(ngModel)]="newUser.email"
+             name="email"
+             placeholder="youremail@example.com"
+             required
+             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+    </div>
+
+    <div *ngIf="formErrors.email" class="alert alert-danger">
+      {{ formErrors.email }}
     </div>
 
     <div class="form-group">
-      <label for="pass">Password: </label>
-      <input type="password" class="form-control" id="pass" #password placeholder="password">
+      <label for="password">Password: </label>
+      <input type="password"
+             class="form-control"
+             id="password"
+             [(ngModel)]="newUser.password"
+             name="password"
+             placeholder="password"
+             required
+             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}">
+    </div>
+
+    <div *ngIf="formErrors.password" class="alert alert-danger">
+      {{ formErrors.password }}
     </div>
 
     <a class="btn btn-secondary" (click)="goBack()">Back</a>
-    <a class="btn btn-primary text-white" (click)="auth.signUp(email.value, password.value)">Sign Up</a>
+    <button class="btn btn-primary text-white"
+            type="submit"
+            [class.disabled]="submitDisabled">
+      Sign Up
+    </button>
   </form>
 </div>

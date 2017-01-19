@@ -1,34 +1,77 @@
-<div class="container">
-  <div *ngIf="user">
-    <label for="firstName">First Name:</label>
-    <input type="text" id="firstName" placeholder="First Name" [(ngModel)]="user.firstName" required><br>
+<div *ngIf="user" class="container">
+  <h3 id="title">{{ title }}</h3>
+  <form #userEditForm="ngForm"
+        (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      <input type="text"
+             id="firstName"
+             class="form-control"
+             placeholder="First Name"
+             [(ngModel)]="user.firstName"
+             name="firstName"
+             required
+             pattern=".{3,30}">
+    </div>
 
-    <label for="lastName">Last Name:</label>
-    <input type="text" id="lastName" placeholder="Last Name" [(ngModel)]="user.lastName" required><br>
+    <div *ngIf="formErrors.firstName" class="alert alert-danger">
+      {{ formErrors.firstName }}
+    </div>
 
-    <label for="email">Email:</label>
-    <input type="email"
-           id="email"
-           placeholder="Email"
-           [(ngModel)]="user.email"
-           required
-           [disabled]="isSocial"><br>
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      <input type="text"
+             class="form-control"
+             id="lastName"
+             placeholder="Last Name"
+             [(ngModel)]="user.lastName"
+             name="lastName"
+             pattern=".{0,30}">
+    </div>
 
-    <div *ngIf="user.admin">
-      <label for="admin">Email:</label>
-      <input type="checkbox" id="admin" [(ngModel)]="user.admin"><br>
+    <div *ngIf="formErrors.lastName" class="alert alert-danger">
+      {{ formErrors.lastName }}
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email"
+             [disabled]="isSocial"
+             id="email"
+             class="form-control"
+             placeholder="Email"
+             [(ngModel)]="user.email"
+             name="email"
+             required
+             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+    </div>
+
+    <div *ngIf="formErrors.email" class="alert alert-danger">
+      {{ formErrors.email }}
+    </div>
+
+    <div *ngIf="user.admin" class="form-group">
+      <label for="admin">Admin:</label>
+      <input type="checkbox"
+             class="form-control"
+             id="admin"
+             [(ngModel)]="user.admin"
+             name="admin">
     </div>
 
     <div id="changePass">
       <a class="btn btn-warning text-white"
-         (click)="changePass()"
-         [class.disabled]="isSocial">
+          (click)="changePass()"
+          [class.disabled]="isSocial">
         Change Password
       </a>
     </div>
 
     <a class="btn btn-secondary" (click)="goBack()">Back</a>
-    <a class="btn btn-primary text-white" (click)="onSubmit()">Submit</a>
-
-  </div>
+    <button class="btn btn-primary text-white"
+            type="submit"
+            [class.disabled]="submitDisabled">
+      Submit
+    </button>
+  </form>
 </div>

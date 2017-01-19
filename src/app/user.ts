@@ -11,6 +11,7 @@ export class User {
     public createdAt?: string,
     public updatedAt?: string,
     public followers?: User[],
-    public followedUsers?: User[]
+    public followedUsers?: User[],
+    public password?: string
   ) { }
 }

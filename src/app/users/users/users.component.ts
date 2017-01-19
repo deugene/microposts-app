@@ -30,8 +30,7 @@ export class UsersComponent implements OnInit {
       offset: this.offset,
       limit: this.itemsLimit
     };
-    this.userService
-      .all(paginationOpts)
+    this.userService.all(paginationOpts)
       .then(result => {
         this.users = result.data;
         this.totalItems = result.count;
@@ -42,12 +41,6 @@ export class UsersComponent implements OnInit {
     this.offset = (newPage - 1) * this.itemsLimit;
     this.currentPage = newPage;
     this.getAllUsers();
-  }
-
-  delete(id: string): void {
-    this.userService.destroy(id)
-      .then(() => this.getAllUsers());
-
   }
 
 }

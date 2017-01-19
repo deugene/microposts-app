@@ -17,7 +17,7 @@ export class MicropostsComponent implements OnInit, OnChanges {
   @Input() currentId: string;
   @Input() isCurrUser: boolean;
 
-  showDialog = { visible: false, type: '' };
+  showDialog = { visible: false, type: undefined };
   selectedMicropost: Micropost;
 
   // pagination
@@ -37,9 +37,7 @@ export class MicropostsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     const change = changes[ 'userId' ];
-    if (change.currentValue !== change.previousValue) {
-      this.getFeed();
-    }
+    if (change.currentValue !== change.previousValue) { this.getFeed(); }
   }
 
   private getFeed(): void {
@@ -47,8 +45,7 @@ export class MicropostsComponent implements OnInit, OnChanges {
       offset: this.offset,
       limit: this.itemsLimit
     };
-    this.userService
-      .feed(this.userId, paginationOpts)
+    this.userService.feed(this.userId, paginationOpts)
       .then(result => {
         this.feed = result.data.length ? result.data : null;
         this.totalItems = result.count;
@@ -71,15 +68,6 @@ export class MicropostsComponent implements OnInit, OnChanges {
     return authorId === this.currentId;
   }
 
-  edit(body: string): void {
-    this.micropostService
-      .update(this.selectedMicropost.id, { body: body })
-      .then(() => {
-        this.selectedMicropost = undefined;
-        this.getFeed();
-      });
-  }
-
   delete(): void {
     this.micropostService
       .destroy(this.selectedMicropost.id)
@@ -89,17 +77,17 @@ export class MicropostsComponent implements OnInit, OnChanges {
       });
   }
 
-  addMicropost(body: string): void {
-    const newMicropost = new Micropost(body, this.currentId);
-    this.micropostService
-      .create(newMicropost)
-      .then(() => this.getFeed());
-  }
-
   // show dialogs
   showModal(micropost: Micropost, type: string): void {
     this.selectedMicropost = micropost;
     this.showDialog.visible = !this.showDialog.visible;
     this.showDialog.type = type;
   }
+
+  refresh(dialog: any): void {
+    this.selectedMicropost = undefined;
+    dialog.cancel();
+    this.getFeed();
+  }
+
 }

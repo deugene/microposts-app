@@ -1,8 +1,9 @@
 <div *ngIf="isCurrUser">
-  <textarea class="form-control" #body placeholder="Micropost content"></textarea>
-  <div class="submit">
-    <a class="btn btn-primary text-white" (click)="addMicropost(body.value); body.value=''">New Micropost</a>
-  </div>
+  <app-micropost-edit *ngIf="showDialog.type !== 'edit'"
+                      [mode]="showDialog.type"
+                      [currentId]="currentId"
+                      (refresh)="getFeed()">
+  </app-micropost-edit>
 </div>
 <div id="feed" *ngIf="feed">
   <ul class="list-group">
@@ -69,21 +70,11 @@
         </div>
 
         <div *ngIf="selectedMicropost">
-          <textarea class="form-control"
-                    placeholder="Micropost content"
-                    [value]="selectedMicropost.body"
-                    #editBody>
-          </textarea>
-          <div class="submit">
-            <a class="btn btn-secondary"
-                (click)="dialog.cancel()">
-              Cancel
-            </a>
-            <a class="btn btn-primary text-white"
-                (click)="edit(editBody.value); editBody.value = ''; dialog.cancel()">
-              Save
-            </a>
-          </div>
+          <app-micropost-edit [mode]="showDialog.type"
+                              [currentId]="currentId"
+                              [micropost]="selectedMicropost"
+                              (refresh)="refresh(dialog)">
+          </app-micropost-edit>
         </div>
 
       </div>

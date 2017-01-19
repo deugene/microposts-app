@@ -1,5 +1,6 @@
-const request = require('request');
+'use strict';
 
+const request = require('request');
 const managmentToken = process.env.MANAGEMENT_TOKEN;
 
 module.exports = {

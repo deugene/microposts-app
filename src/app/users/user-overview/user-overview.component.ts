@@ -45,25 +45,21 @@ export class UserOverviewComponent implements OnInit {
 
   init(): void {
     this.auth.getUserProfile()
-      .then(profile => {
-        const currentUserId = profile.user_id;
-        this.userService
-          .findById(currentUserId)
-          .then(currentUser => {
-            this.route.params
-              .switchMap((params: Params): Promise<User> => {
-                return this.userService.findById(params['userId']);
-              })
-              .subscribe(user => {
-                this.user = user;
-                this.currentUser = currentUser;
-                this.isFollow = this.relationshipService.isFollow(
-                  this.currentUser,
-                  this.user.id
-                );
-                this.isCurrent = this.user.id === this.currentUser.id;
-                this.hideRelationships();
-              });
+      .then(profile => this.userService.findById(profile.user_id))
+      .then(currentUser => {
+        this.route.params
+          .switchMap((params: Params): Promise<User> => {
+            return this.userService.findById(params['userId']);
+          })
+          .subscribe(user => {
+            this.user = user;
+            this.currentUser = currentUser;
+            this.isFollow = this.relationshipService.isFollow(
+              this.currentUser,
+              this.user.id
+            );
+            this.isCurrent = this.user.id === this.currentUser.id;
+            this.hideRelationships();
           });
       });
   }
@@ -73,28 +69,21 @@ export class UserOverviewComponent implements OnInit {
   }
 
   follow(): void {
-    this.relationshipService
-      .follow(this.currentUser.id, this.user.id)
-      .then(() => {
-        this.userService
-          .findById(this.user.id)
-          .then(user => {
-            this.user = user;
-            this.isFollow = true;
-          });
+    this.relationshipService.follow(this.currentUser.id, this.user.id)
+      .then(() => this.userService.findById(this.user.id))
+      .then(user => {
+        this.user = user;
+        this.isFollow = true;
       });
   }
 
   unfollow(): void {
     this.relationshipService
       .unfollow(this.currentUser.id, this.user.id)
-      .then(() => {
-        this.userService
-          .findById(this.user.id)
-          .then(user => {
-            this.user = user;
-            this.isFollow = false;
-          });
+      .then(() => this.userService.findById(this.user.id))
+      .then(user => {
+        this.user = user;
+        this.isFollow = false;
       });
   }
 
@@ -110,6 +99,11 @@ export class UserOverviewComponent implements OnInit {
   hideRelationships(): void {
     this.relationshipType = null;
     this.relationshipUsers = null;
+  }
+
+  delete(id: string): void {
+    this.userService.destroy(id)
+      .then(() => this.router.navigate([ '/users' ]));
   }
 
 }

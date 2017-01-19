@@ -23,6 +23,7 @@ import { SignupComponent } from './users/signup/signup.component';
 import { MicropostsComponent } from './microposts/microposts/microposts.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { FollowersComponent } from './users/followers/followers.component';
+import { MicropostEditComponent } from './microposts/micropost-edit/micropost-edit.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({}), http, options);
@@ -40,7 +41,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     SignupComponent,
     MicropostsComponent,
     DialogComponent,
-    FollowersComponent
+    FollowersComponent,
+    MicropostEditComponent
   ],
   imports: [
     BrowserModule,

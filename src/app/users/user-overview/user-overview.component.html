@@ -10,15 +10,10 @@
         </div>
         <div id="buttons">
           <a class="btn btn-secondary" (click)="goBack()">Back</a>
-          <a *ngIf="isCurrent"
+          <a *ngIf="isCurrent || currentUser.admin"
              routerLink="/users/{{user.id}}/edit"
              class="btn btn-primary text-white">
             Edit
-          </a>
-          <a *ngIf="currentUser.admin"
-             class="btn btn-outline-danger text-danger"
-             (click)="delete(user.id); $event.stopPropagation()">
-            Delete
           </a>
           <a *ngIf="!isCurrent && !isFollow"
              (click)="follow()"
@@ -29,6 +24,11 @@
              (click)="unfollow()"
              class="btn btn-outline-primary text-primary">
             Unfollow
+          </a>
+          <a *ngIf="currentUser.admin"
+             class="btn btn-outline-danger text-danger"
+             (click)="delete(user.id); $event.stopPropagation()">
+            Delete
           </a>
         </div>
         <div>

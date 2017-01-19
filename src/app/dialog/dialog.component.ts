@@ -29,6 +29,7 @@ export class DialogComponent {
 
   cancel(): void {
     this.dialogOptions.visible = false;
+    this.dialogOptions.type = undefined;
     this.dialogOptionsChange.emit(this.dialogOptions);
   }
 }
