@@ -37,7 +37,10 @@ export class MicropostsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     const change = changes[ 'userId' ];
-    if (change.currentValue !== change.previousValue) { this.getFeed(); }
+    if (change.currentValue !== change.previousValue) {
+      this.offset = 0;
+      this.getFeed();
+    }
   }
 
   private getFeed(): void {

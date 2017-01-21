@@ -13,7 +13,8 @@
            alt="{{userService.fullName(micropost.author.picture)}} avatar"
            class="user_avatar float-left">
       <span>
-        <a routerLink="/overview/{{micropost.author.id}}">
+        <a routerLink="/overview/{{micropost.author.id}}"
+           (click)="offset = 0" >
           {{userService.fullName(micropost.author)}}
         </a>
       </span>

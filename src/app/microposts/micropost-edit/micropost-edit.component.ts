@@ -74,13 +74,16 @@ export class MicropostEditComponent implements AfterViewChecked {
 
   onSubmit(): void {
     if (this.micropostForm.form.valid) {
-      Promise.resolve((): Promise<Micropost> => {
+      new Promise(res => {
         if (this.mode === 'edit') {
-          return this.micropostService
-            .update(this.micropost.id, { body: this.micropost.body });
+          res(
+            this.micropostService
+              .update(this.micropost.id, { body: this.micropost.body })
+          );
+          return;
         }
         this.micropost.userId = this.currentId;
-        return this.micropostService.create(this.micropost);
+        res(this.micropostService.create(this.micropost));
       })
       .then(() => {
         this.refresh.emit();
