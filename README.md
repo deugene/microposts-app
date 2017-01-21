@@ -2,9 +2,10 @@
 
 This is twitter-like app. It is using next components:
 
-* Front-End - Angular2
+* Front-End - Angular2 + Bootstrap 4
 * Back-End - NodeJS + Express
 * Database - Sequelize + PostgreSQL
+* Authentication - Third-party JWT Authentication (auth0)
 
 ## Getting Started
 
@@ -16,11 +17,18 @@ Installing dependencies:
 ```
 cd microposts-app && npm install
 ```
-Config your databases for various environments in
+Create .env file in root folder and set next env variables:
 ```
-./server/config/config.json
+AUTH0_DOMAIN=your_auth0_domain
+AUTH0_CLIENT_ID=your_auth0_client_id
+AUTH0_CLIENT_SECRET=your_auth0_client_secret
+DEV_DATABASE_URL=link_to_your_sql_dev_database
+TEST_DATABASE_URL=link_to_your_sql_test_database
+PROD_DATABASE_URL=link_to_your_sql_prod_database
+MANAGEMENT_TOKEN=your_auth0_management_token
+
 ```
-file.
+you may need to create auth0 account here - [auth0](https://auth0.com).
 
 ## Commands
 
@@ -28,7 +36,7 @@ Starting app under development env with nodemon:
 ```
 npm run dev
 ```
-Navigate to `http://localhost:3000/`.
+Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.
 
 # Angular2 info
 
@@ -57,3 +65,6 @@ Before running the tests make sure you are serving the app via `ng serve`.
 ## Further help
 
 To get more help on the `angular-cli` use `ng help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+# Enjoy!
+

@@ -105,6 +105,9 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('user_profile');
+
+    this.accessToken = null;
+
     this.router.navigate([ '/home' ]);
   }
 
@@ -115,18 +118,17 @@ export class AuthService {
         res(userProfile);
         return;
       } else if (this.accessToken) {
-        this.auth0.getUserInfo(this.accessToken, (err, profile): void => {
-          if (err) {
-            rej(err);
-            return;
-          }
-          localStorage.setItem('user_profile', JSON.stringify(profile));
+        this.auth0.getUserInfo(this.accessToken, (err: any, profile: any): void => {
+          if (err) { throw new Error(err.message); }
+          localStorage.setItem('profile', JSON.stringify(profile));
           this.userProfile = profile;
           res(profile);
         });
       } else {
         res(null);
       }
-    });
+    })
+    .catch(err => console.error(err.message));
   }
+
 }
