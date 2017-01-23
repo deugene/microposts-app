@@ -28,7 +28,7 @@ export class RelationshipService {
       .toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err.message); }
+        if (result.err) { throw result.err; }
         return result as Relationship;
       })
       .catch(this.errorHandler);
@@ -42,7 +42,7 @@ export class RelationshipService {
       .toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err.message); }
+        if (result.err) { throw result.err; }
         return null;
       })
       .catch(this.errorHandler);

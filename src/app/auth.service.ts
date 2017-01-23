@@ -18,7 +18,7 @@ export class AuthService {
     callbackURL: environment.auth0CallbackURL
   });
 
-  userProfile: any;
+  private userProfile: any;
 
   constructor(
     private router: Router,
@@ -45,9 +45,7 @@ export class AuthService {
             profile.picture
           ));
         })
-        .then((newUser): Promise<User> => {
-          return this.userService.create(newUser);
-        })
+        .then((newUser): Promise<User> => this.userService.create(newUser))
         .then(newUser => this.router.navigate([ `users/${newUser.id}/edit` ]))
         .catch(err => {
           if (err) { console.error(err); }
@@ -104,12 +102,13 @@ export class AuthService {
       const userProfile = JSON.parse(localStorage.getItem('user_profile'));
       const accessToken = localStorage.getItem('access_token');
       if (userProfile) {
+        this.userProfile = userProfile;
         res(userProfile);
         return;
       } else if (accessToken) {
         this.auth0.getUserInfo(accessToken, (err: any, profile: any): void => {
-          if (err) { throw new Error(err.message); }
-          localStorage.setItem('profile', JSON.stringify(profile));
+          if (err) { throw err; }
+          localStorage.setItem('user_profile', JSON.stringify(profile));
           this.userProfile = profile;
           res(profile);
         });

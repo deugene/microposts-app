@@ -31,7 +31,7 @@ export class UserService {
       .toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err.message); }
+        if (result.err) { throw result.err; }
         return result as PaginationResult;
       })
       .catch(this.errorHandler);
@@ -43,7 +43,7 @@ export class UserService {
       .then(res => {
         let result = res.json();
         if (result.err && result.err.message !== 'User Not Found') {
-          throw new Error(result.err.message);
+          throw result.err;
         } else if (result.err && result.err.message === 'User Not Found') {
           result.data = null;
         }
@@ -57,7 +57,7 @@ export class UserService {
       .toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err.message); }
+        if (result.err) { throw result.err; }
         return result.data as User;
       })
       .catch(this.errorHandler);
@@ -68,7 +68,7 @@ export class UserService {
       .toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err.message); }
+        if (result.err) { throw result.err; }
         return result.data as User;
       })
       .catch(this.errorHandler);
@@ -83,7 +83,7 @@ export class UserService {
       .toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err.message); }
+        if (result.err) { throw result.err; }
         return result.data as User;
       })
       .catch(this.errorHandler);
@@ -98,7 +98,7 @@ export class UserService {
       .toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err.message); }
+        if (result.err) { throw result.err; }
         return result as PaginationResult;
       })
       .catch(this.errorHandler);
@@ -116,7 +116,7 @@ export class UserService {
       .toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err.message); }
+        if (result.err) { throw result.err; }
         return true;
       })
       .catch(this.errorHandler);
@@ -132,7 +132,7 @@ export class UserService {
       .then(res => {
         let result = res.json();
         if (result.err) {
-          throw new Error(result.err.message);
+          throw result.err;
         } else if (!result.ticket) {
           throw new Error('Ticket Not Recieved');
         }
@@ -142,7 +142,7 @@ export class UserService {
   }
 
   errorHandler(err: any): void {
-    alert(err);
+    console.error(err);
   }
 
 }
