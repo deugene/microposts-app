@@ -6,35 +6,20 @@ const Micropost = models.Micropost;
 const Comment = models.Comment;
 
 module.exports = {
-  create(req, res, next) {
-    User.findAll({ offset: 0, limit: 1 })
-      .then(users => {
-        const newUser = req.body;
-        if (users.length === 0) { newUser.admin = true; }
-        return User.create(newUser, { fields: Object.keys(newUser) })
-      })
-      .then(newUser => res.json({ data: newUser }))
-      .catch(next);
-  },
   all(req, res, next) {
-    let count;
-    User.findAll({ attributes: [ 'id' ] })
-      .then(users => {
-        count = users.length;
-        const findOpts = {
-          offset: req.body.offset,
-          limit: req.body.limit
-        };
-        return User.findAll(findOpts)
-      })
+    User.findAndCountAll({
+      offset: req.body.offset,
+      limit: req.body.limit
+    })
       .then(users => {
         res.json({
-          count: count,
-          data: users
+          count: users.count,
+          data: users.rows
         });
       })
       .catch(next);
   },
+
   findById(req, res, next) {
     User.findById(req.params.userId, {
       include:[
@@ -56,6 +41,18 @@ module.exports = {
     })
     .catch(next);
   },
+
+  create(req, res, next) {
+    User.findOne()
+      .then(user => {
+        const newUser = req.body;
+        if (!user) { newUser.admin = true; }
+        return User.create(newUser, { fields: Object.keys(newUser) })
+      })
+      .then(newUser => res.json({ data: newUser }))
+      .catch(next);
+  },
+
   update(req, res, next) {
     User.findById(req.params.userId)
       .then(user => {
@@ -65,17 +62,17 @@ module.exports = {
       .then(updatedUser => res.json({ data: updatedUser }))
       .catch(next);
   },
+
   destroy(req, res, next) {
     let deletedUser;
     let lastAdmin;
-    User.findAll({
+    User.findAndCountAll({
       where: { admin: true },
-      offset: 0,
       limit: 2,
       attributes: [ 'id' ],
     })
       .then(admins => {
-        if (admins.length < 2) { lastAdmin = true; }
+        if (admins.count < 2) { lastAdmin = true; }
         return User.findById(req.params.userId)
       })
       .then(user => {
@@ -87,9 +84,8 @@ module.exports = {
       .then(() => res.json({ data: deletedUser }))
       .catch(next);
   },
+
   feed(req, res, next) {
-    let followedUsers;
-    let count;
     User.findById(req.params.userId, {
       include: [{
         model: User,
@@ -99,17 +95,8 @@ module.exports = {
     })
       .then(user => {
         if (!user) { throw new Error('User Not Found'); }
-        followedUsers = user.followedUsers.concat(user).map(u => u.id);
-        return Micropost.findAll({
-          where: {
-            userId: { $in: followedUsers }
-          },
-          attributes: [ 'id' ]
-        });
-      })
-      .then(feed => {
-        count = feed.length;
-        return Micropost.findAll({
+        const followedUsers = user.followedUsers.concat(user).map(u => u.id);
+        return Micropost.findAndCountAll({
           where: {
             userId: { $in: followedUsers },
           },
@@ -126,12 +113,12 @@ module.exports = {
             foreignKey: 'userId',
             as: 'author'
           }]
-        })
+        });
       })
       .then(feed => {
         res.json({
-          count: count,
-          data: feed || []
+          count: feed.count,
+          data: feed.rows
         });
       })
       .catch(next);
